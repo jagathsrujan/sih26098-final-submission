@@ -1,0 +1,586 @@
+====================================================================
+1. PROBLEM UNDERSTANDING AND DESIGN DRIVERS
+====================================================================
+
+A 155 mm unguided shell at long range carries a circular error probable measured in hundreds of metres — published figures for the fielded class run from about 94 m to 267 m across the range envelope [4]; service firing tables follow after selection. Correcting this conventionally requires adjustment fire — observe, evaluate, re-engage — which consumes time, reveals the firing position and reduces the probability of destroying the target.
+
+The problem statement sets out exactly what must be added: a Canard Actuation Assembly for in-flight trajectory correction; a Guidance, Navigation and Control system; a multi-mode electronic fuze with proximity, time and impact modes; embedded electronics and real-time flight-control software; power management for high-g launch and flight; and a pre-fire programming interface. The integrated system must reach CEP of 30 m or better while remaining compatible with the existing 155 mm shell and surviving launch and flight.
+
+The governing design drivers we extracted are:
+
+- Accuracy: CEP of 30 m or better at full charge and long range.
+- Retrofit compatibility: the shell body, charge system and gun interface must not change. The kit occupies the fuze well and the forward ogive.
+- Launch survival: high axial acceleration, radial shock, and spin in the 10,000-20,000 rpm band, followed by aerodynamic heating and 90 s of flight.
+- SWaP-C: the problem statement explicitly asks for low Size, Weight, Power and Cost. Cost is the competitive premise of this product class.
+- Safety and reliability: the fuze must be safe in storage, on the gun line, in bore and during ramming, and must arm only after launch.
+- Modularity: clean interfaces so a future anti-jam GNSS or a different fuze module can be substituted without redesigning the kit.
+
+====================================================================
+2. SYSTEM ARCHITECTURE
+====================================================================
+
+STHIRA-PGK replaces the shell's fuze and forward ogive and comprises four modules on a common mechanical and electrical backbone:
+
+  (a) Fuze module — nose tip. Proximity antenna, impact switch, safe-and-arm unit, fuze electronics and detonation train.
+  (b) Canard Actuation Assembly — a de-spun ring carrying four fixed-incidence canards, mounted on two isolation bearings, carrying the alternator rotor magnets.
+  (c) Guidance, Navigation and Control module — inertial measurement, GNSS receiver, barometric sensor, flight computer and the control loop.
+  (d) Power module — alternator stator, rectifier and conditioning, reserve battery, energy management and the external programming interface.
+
+The kit body is rigidly attached to the shell and spins with it. The canard ring is isolated by bearings and free to rotate about the roll axis, so the canard assembly is de-spun relative to the projectile body while remaining fully coupled to the airflow.
+
+====================================================================
+3. CANARD ACTUATION ASSEMBLY — GEOMETRY AND ACTUATION
+====================================================================
+
+3.1 Canard geometry and control concept
+
+Four canards are mounted on the ring in two functional pairs:
+
+- Steering pair at 0 deg and 180 deg, carrying equal cant angles. Their aerodynamic forces are parallel and codirectional, so their roll torques cancel while their forces add. The result is a net guidance force equal to twice a single canard's force, with no net roll torque.
+- Control pair at 90 deg and -90 deg, carrying opposite cant angles. Their forces oppose, so there is no net force, but there is a net roll torque about the body axis.
+
+Because the ring is free to rotate, the direction of the steering force in the plane normal to the shell axis is set by the ring's roll angle. Commanding that angle is therefore equivalent to commanding a two-dimensional guidance-force vector. This gives full planar steering from one actuation axis and eliminates the servo actuators, linkages and gearboxes that a conventional actuated-canard layout requires.
+
+3.2 Actuation: the alternator as actuator
+
+The ring carries permanent magnets; the body carries the stator coils. When the flight computer draws current from the coils it produces a reaction torque on the ring that opposes the aerodynamic torque. When it does not, the machine generates electrical power. One machine therefore performs both functions.
+
+This yields three advantages that map directly onto the constraints:
+
+- No control actuators — the least reliable and most expensive components of a guided projectile are removed.
+- Recovered in-flight power — no battery has to carry the guidance load through a 90 s flight, which reduces weight and removes a large launch-survival risk.
+- Only one moving assembly — the ring — which simplifies assembly, tolerance stack-up and qualification.
+
+3.3 Torque balance and the ring design criterion
+
+Three torques act on the ring: the aerodynamic torque from the control canards, which opposes the body spin and is unavoidable and flight-dependent; the bearing friction torque, which acts with the body spin; and the alternator reaction torque, which is the control input.
+
+The design criterion is that control authority must be symmetric in both directions and must remain positive throughout flight:
+
+- Symmetric authority requires the peak aerodynamic torque to be no more than half the sum of the maximum alternator torque and the friction torque.
+- Minimum controllability requires the aerodynamic torque to exceed the friction torque at all times.
+
+For a 155 mm shell the aerodynamic torque on the canard assembly rises to a few newton-metres over the flight while the bearing friction must be held to a fraction of a newton-metre. This makes bearing selection, preload and contamination control first-order design decisions, not details — the margin is thinnest near apogee where the aerodynamic torque collapses.
+
+3.4 Canard configuration — permanently exposed
+
+The canards are fixed in the flight configuration from manufacture, with no deployment mechanism at all. This is a deliberate simplification: nothing can deploy, so nothing can deploy wrongly. In-bore safety becomes a static clearance question rather than a mechanism-safety argument, and the fielded precision guidance kit in this product class makes the same choice, carrying four fixed external canards.
+
+- A 2 mm per side clearance budget caps the canard tips at Ø151 mm, so the assembly cannot foul the bore or the rammer.
+- There is no one-shot mechanism to release, lock or fail, and therefore no partial-deployment mode that could produce an asymmetric force.
+- Magazine and handling constraints apply to a known fixed envelope rather than to a mechanism's stowed state.
+- The single moving assembly in the kit remains the canard ring on its two bearings.
+
+3.5 Launch survival
+
+The isolation bearings and the ring retention carry the full setback load of the ring and canard assembly during launch, which is the governing structural load case for the CAA and the primary input to the bearing specification and the CAD structural analysis.
+
+====================================================================
+4. GUIDANCE AND NAVIGATION METHODOLOGY
+====================================================================
+
+4.1 Guidance law — impact point prediction
+
+The flight computer runs an impact-point-prediction guidance law:
+
+- Propagate the current navigation state forward to impact using the onboard aerodynamic and gravity model.
+- Compare the predicted impact point with the target coordinates loaded before firing.
+- Compute the required correction and convert it into a commanded ring angle, i.e. a direction for the guidance-force vector.
+- Recompute continuously; the loop converges as the trajectory becomes better determined.
+
+This is the correct law for this architecture for two reasons. First, the single controlled variable — ring angle — maps directly to a force direction, so the law's output is naturally the azimuth of the correction vector. Second, the available guidance force scales with dynamic pressure, so authority is high early and late in flight and vanishes at apogee. An impact-point-prediction law exploits the high-authority windows and does not demand control where none exists.
+
+4.2 Navigation
+
+The navigation solution fuses:
+
+- GNSS position and velocity, for absolute accuracy and for the target-relative solution.
+- An inertial measurement unit, for attitude, angular rate and continuity through GNSS outage or jamming.
+- A barometric sensor, for altitude, which also improves the aerodynamic model's density estimate.
+- Ring-angle sensing, which is the single most important measurement in this architecture because it defines the direction of the guidance force.
+
+4.3 Solving spin-rate sensing — the de-spun ring as sensor platform
+
+The hardest sensing problem in a spin-stabilised guided shell is that the body rotates at 10,000-20,000 rpm, a band beyond the range of flight-representative MEMS rate sensors; a body-fixed inertial sensor either saturates or requires heavy compensation.
+
+Our architecture resolves this structurally rather than by sensor specification. The canard ring is already isolated from body roll, so it rotates slowly relative to inertial space. Mounting the inertial sensor on the ring means it measures the projectile's coning and pitch/yaw motion with the spin removed — a conventional, low-rate attitude signal that a standard IMU can provide. The ring's own rotation is measured separately:
+
+- Relative to the body, by a magnetic or inductive pickoff, which gives the ring angle used by the control loop.
+- Absolutely, by a magnetometer referenced to the Earth's field, which gives the earth-referenced direction of the guidance force.
+
+This combination is a genuine architectural advantage of the de-spun ring, and it converts the problem's largest sensing risk into a bench-verifiable item.
+
+4.4 GNSS under spin
+
+A body-fixed antenna rotating at the shell's spin rate modulates the received signal amplitude and phase at the spin frequency. The antenna arrangement is therefore a first-class design item: either a spin-tolerant antenna pattern, an array with combined outputs, or an antenna mounted on the de-spun ring. GNSS denial is handled by graceful degradation — the navigation solution coasts on inertial data, and the guidance law continues to reduce dispersion to the limit of inertial drift; the outage duration the kit must tolerate is set and verified in the §10.3 campaign rather than assumed here.
+
+====================================================================
+5. FLIGHT CONTROL ALGORITHMS
+====================================================================
+
+5.1 Cascade structure
+
+Ring angle is controlled by a cascade loop: an outer position controller sets a reference ring angular velocity, and an inner velocity controller commands alternator current.
+
+- Inner velocity loop: proportional-integral, which provides zero steady-state error to a step and drives the effect of disturbance torques to zero.
+- Outer position loop: proportional. The plant already contains an integrator, so proportional control is sufficient and avoids unnecessary phase lag.
+- The inner loop is designed to settle at least five times faster than the outer loop, so disturbances are rejected before they reach the outer loop.
+
+5.2 Disturbances and their rejection
+
+Two disturbances act on the ring: the aerodynamic torque from the control canards and the spin of the projectile body, which is imposed through bearing friction. Both enter the plant and are rejected by the inner loop. Since they are not directly measurable with simple sensors, they are estimated with a disturbance observer and fed forward into the control law.
+
+5.3 Adaptive limits — the key robustness measure
+
+A fixed saturation limit is unsafe in this application, because the aerodynamic torque varies by more than an order of magnitude over the flight and the alternator's available current itself falls as relative speed changes. With fixed limits, control authority is lost in the low-torque region of the trajectory; the ring then overshoots badly and can enter a runaway rotation.
+
+We therefore make every limit state-dependent rather than constant:
+
+- The current limit is scaled to a multiple of the observed disturbance current, so the controller always has authority over the actual disturbance.
+- The velocity limit is scaled proportionally to the same estimate, so the commanded ring velocity never exceeds what the alternator can achieve at the current operating point.
+- Both limits are recomputed continuously from the measured relative velocity and the disturbance estimate.
+
+This turns authority loss from a failure mode into a designed-in constraint, and it is the single most important robustness feature in the control design.
+
+5.4 Anti-windup
+
+Because output saturation is unavoidable and the dynamic limits change continuously, the integral term is protected by clamping anti-windup, so the controller leaves saturation immediately and without overshoot.
+
+5.5 Control rate
+
+The control loop runs at 1 kHz, which is well above the position-loop bandwidth required for guidance (a few hertz). Control bandwidth of this order is sufficient because guidance corrections are needed only while the projectile is off-trajectory, and near impact the ring may be allowed to free-wheel.
+
+====================================================================
+6. MULTI-MODE ELECTRONIC FUZE DESIGN
+====================================================================
+
+6.1 Modes
+
+- Proximity mode: an RF Doppler proximity sensor with a selectable burst height, giving airburst effects against personnel and soft targets.
+- Time mode: a crystal-controlled timer, programmable before firing, giving airburst at a computed time of flight and scoring against targets in defilade or under cover.
+- Impact mode: a crush/inertial switch with selectable delay, for point and hardened targets and for graze function.
+
+6.2 Safe-and-arm
+
+The fuze uses an out-of-line safe-and-arm unit in which the detonator is mechanically misaligned from the explosive train until arming. Arming requires two independent environmental interlocks — the setback of launch and the spin of the projectile — so the fuze cannot arm in storage, during handling, in the bore or during ramming. A pyrotechnic or electromechanical delay after muzzle exit provides an arming distance. If either interlock is absent the fuze remains safe and the round functions as a non-guided shell.
+
+6.3 Pre-fire programming interface
+
+All configuration is written before firing over the gun line's existing inductive fuze setter, with no tools and no modification to existing firing procedure. The data package carries:
+
+- Fuze mode (proximity, time or impact) and the associated setting.
+- Time of flight for time mode.
+- Target coordinates, muzzle velocity and meteorological data for the guidance solution, since an impact-point-prediction law must know where it is trying to arrive.
+
+The interface is also the software upload and built-in-test port for maintenance.
+
+6.4 Coexistence with the guidance system
+
+The proximity sensor, the magnetometer used for ring-angle measurement and the alternator share one nose assembly, so electromagnetic compatibility is designed in rather than tested in: shielded and partitioned compartments, separated frequency planning for the proximity and setter channels, and a shared timing reference so that the alternator's switching does not appear as a false target to the proximity sensor. The fuze and guidance electronics share a processor and a power rail, which reduces part count and cost.
+
+6.5 Dormancy and function
+
+Loss of guidance, loss of GNSS or loss of the setter write all degrade accuracy, and none of them removes the fuze's ability to function. That answers the accuracy question. There is a second question behind it, and it is about where the round lands rather than how accurately.
+
+Our position: the fuze withholds function on a predicted miss. The kit computes a predicted impact point continuously, so it always knows where it is going to land. If, at the point where the guidance can no longer change the outcome, that prediction is still more than 150 m from the loaded target, the fuze will not function. The inhibit latches and is irrevocable.
+
+150 m is the figure the fielded kit in this class publishes, adopted rather than invented. It does not conflict with our accuracy claim, because a round predicted to land beyond it has already left the effect envelope we are claiming.
+
+The mechanism adds nothing to the fuze. The safe-and-arm unit already requires an electrical arm command as a third, independent condition on top of setback and spin, and the failsafe is the withholding of that command. The rotor never goes in line, so the round is a dud rather than a burst: there is no new element in the explosive train and no new path by which the fuze could function. The failsafe can only ever make the round safer.
+
+The fuze also stays autonomous. The veto travels the same bounded, one-way, arming-gated path as the time correction, and it is absent by default: if the kit says nothing, the fuze arms and functions on its own pre-set terms.
+
+The cost is stated rather than hidden. Because the decision is a prediction rather than a measurement, a prediction error can withhold function on a round that would have landed acceptably. That exposure is bounded by the propagation error over the remaining flight, which is why the decision is taken as late as the authority allows rather than on a fixed clock.
+
+The mechanism is standard-supported: AOP-22 defines a command mode that programs the fuze to a safe condition.
+
+====================================================================
+7. SENSOR SELECTION
+====================================================================
+
+  Function                  Sensor                      Rationale
+  ------------------------  --------------------------  ------------------------------------------
+  Guidance force direction  Ring angle pickoff          Defines where the steering force points
+                            (magnetic/inductive) +      and is the primary control feedback
+                            magnetometer                variable
+  Attitude and rate         IMU mounted on the          Spin removed by the de-spun ring, so a
+                            de-spun ring                conventional IMU suffices
+  Absolute position,        GNSS receiver with          Absolute accuracy and target-relative
+  velocity                  spin-tolerant antenna       solution
+  Altitude and air density  Barometric sensor           Improves the aerodynamic model and the
+                                                        impact prediction
+  Body spin rate            Magnetic or optical         Needed for the control limit scheduling
+                            pickoff on ring relative    and for fuze arming interlock
+                            to body
+  Burst height              RF Doppler proximity        Standard, robust in weather and
+                            sensor                      obscurants
+  Impact                    Crush / inertial switch     Independent of all electronics
+  Temperature               Board and external          Aerodynamic heating and thermal
+                            thermistors                  compensation of sensors
+
+Sensors are selected for availability in the domestic supply chain, for rated shock, and for operation over the storage and flight temperature range. The inertial and barometric sensors are mounted in a shock-isolated, potted module.
+
+====================================================================
+8. EMBEDDED HARDWARE ARCHITECTURE
+====================================================================
+
+8.1 Processing
+
+A dual-domain architecture separates hard real-time control from navigation and guidance:
+
+- A microcontroller core runs the 1 kHz control loop, the alternator current loop, the safe-and-arm logic and the fuze timing. This path must be deterministic and is written as bare-metal or on a real-time operating system with fixed priorities.
+- A second core or a small FPGA handles the navigation filter, the guidance law and the impact-point prediction, which need floating-point throughput but tolerate longer latency.
+
+8.2 Signal chain
+
+  - IMU and magnetometer on the ring: synchronous serial interface with a slip-free or short-range coupling across the bearing.
+  - GNSS receiver: serial interface, with time synchronisation to the flight computer.
+  - Barometric sensor and thermistors: analogue to digital conversion.
+  - Alternator: three-phase rectification followed by a controlled current sink driven by the velocity loop output.
+  - Fuze: firing discretes, arming interlocks, and the inductive setter interface.
+  - Power: regulated rails with monitoring and brown-out protection.
+
+8.3 Software architecture
+
+  - Deterministic control task at 1 kHz with fixed execution budget.
+  - Navigation and guidance task.
+  - Disturbance observer and limit scheduling.
+  - Fuze manager: mode selection, timing, arming logic, firing decision.
+  - Built-in test, health monitoring, watchdog and flight-event logging for post-flight analysis and for evidence in trials.
+
+====================================================================
+9. POWER SUPPLY AND ENVIRONMENTAL PROTECTION
+====================================================================
+
+9.1 Generation in flight
+
+The alternator provides electrical power throughout flight, because the shell is still spinning at a substantial rate at impact. Rated continuous power, winding resistance, inductance and the torque constant are set by the same sizing exercise as the actuation requirement, so power generation and control authority are designed together rather than traded against each other.
+
+9.2 Pre-launch and safe state
+
+The kit must be inert and safe before launch, so it is unpowered in storage and on the gun line. A reserve battery, activated by the launch environment, provides power for the fuze, the safe-and-arm logic and the boot sequence until the alternator takes over. This is also the safety enabler: no power means no arming path.
+
+9.3 Energy management
+
+The control torque on the ring is produced by dissipating electrical energy. In flight there is no load bank to absorb it, so the control power is managed explicitly by an active dissipation stage, with the option to recover part of it to charge the reserve battery or a supercapacitor.
+
+9.4 Environmental protection
+
+- Shock and acceleration: electronics potted and encapsulated with no free mass; the inertial module shock-isolated; all leaded or large components avoided.
+- Vibration: conformal coating, staked components, and a packaging scheme qualified by test rather than analysis alone.
+- Thermal: aerodynamic heating at the nose is the driving case; thermal mass, a potting compound with a defined conductivity, and thermal compensation of sensor biases. Storage and operating temperature ranges are stated and verified.
+- Humidity, salt fog and corrosion: sealed assembly with a controlled internal environment.
+- Electromagnetic: designed to standard electromagnetic compatibility practice for a fuze and a switching power stage in one volume.
+- Qualification approach: environmental and shock testing against MIL-STD-331C for fuze environmental and performance testing and MIL-STD-810F for environmental conditions, with fuze safety design to MIL-STD-1316 and STANAG 4369 / AOP-39 guidance (insensitive-munitions assessment to STANAG 4439), electromagnetic compatibility to MIL-STD-461, and a shock-sled or air-gun test for launch-survival verification. The inductive setting interface is compliant with NATO **AOP-22** (Edition B Version 1), the standard for inductive setting of large-calibre projectile fuzes; the fuze mechanical interface follows **STANAG 9216 / MIL-STD-333B**. Ordnance electromagnetic-hazard and electrostatic-discharge qualification (HERO / EMR / ESD) is a stated requirement with the applicable standard set fixed at the hardware-definition phase.
+
+====================================================================
+10. SIMULATION AND VALIDATION METHODOLOGY
+====================================================================
+
+10.1 High-fidelity trajectory model
+
+A six-degree-of-freedom model of the shell is extended to seven degrees of freedom to represent the de-spun ring as an independent roll body. The model is written in a body-fixed plane reference frame in which the Euler roll is identically zero, which keeps the guidance and control formulation clean and avoids the long simulation times caused by resolving the high-frequency roll motion. The model includes aerodynamic forces and moments, Magnus effects, pitch and yaw damping, roll damping, gravity, and the additional force and torque terms generated by the canards. It resolves the dual-spin modes including the roll-through-resonance case; the design's disposition is the span-capped canard ring, and the quantitative evidence is a named task of §10.3 — an open evidence item, not a settled result.
+
+10.2 Aerodynamic data
+
+Aerodynamic coefficients for the shell body and for the canard assembly are compiled as functions of Mach number and angle of attack and sideslip, not as a sparse table, because the guidance law depends on accurate force and moment prediction throughout the flight. The coefficient set is assembled from published 155 mm data for the body and from canard data for the kit, with computational fluid dynamics used to fill gaps and to verify the canard interference case. Coefficient uncertainty is carried explicitly so that its contribution to CEP can be quantified.
+
+10.3 Monte Carlo dispersion analysis
+
+This is how the CEP claim is produced. The simulation is run over a statistical population in which the following are varied according to their expected distributions:
+
+- Muzzle velocity and charge temperature.
+- Meteorological conditions: wind profile, air density, temperature.
+- Target location error and survey error.
+- Launch perturbations: elevation, azimuth and initial angular rates.
+- Aerodynamic coefficient uncertainty and sensor noise.
+
+Each run produces an impact point; the resulting two-dimensional distribution gives the CEP directly. This allows every error source to be traced to its contribution, so the budget can be actively managed rather than asserted.
+
+10.4 Hardware-in-the-loop
+
+The ring control loop is exercised against a live trajectory: the simulated flight state generates the aerodynamic torque and the body spin rate, the controller acts on the real ring hardware, and the ring's measured angle is fed back into the trajectory. This closes the loop that pure simulation leaves open and is where authority losses and limit-scheduling errors appear.
+
+10.5 Bench dynamometer rig
+
+A rotating test rig reproduces the two loads that matter on the bench: aerodynamic torque on the ring, applied by a torque motor, and body spin, applied by a speed motor, with a programmable load absorbing the control power. This allows the actuation concept, the disturbance observer, the adaptive limits and the anti-windup behaviour to be verified on hardware before flight, and it produces the measured alternator constant and friction data used to close the design.
+
+====================================================================
+11. PERFORMANCE ESTIMATION — PATH TO CEP OF 30 m OR BETTER
+====================================================================
+
+11.1 Guidance authority is sufficient
+
+The guidance force available from the canard pair scales with dynamic pressure. Across mid-flight it holds a band of roughly 15 to 25 N, rising to approximately 85 N in the launch transient and falling towards zero at apogee. Over the guided window the control force holds a minimum of 18.1 N; against the 45.0 kg design point, that is the authority that must capture 80% of the unguided population — 450 m available against 407 m required, a margin of 1.11:1 stated as a margin rather than as comfort.
+
+The binding constraints are navigation quality and impact-point-prediction accuracy, not canard force. The design effort is placed accordingly.
+
+11.2 The CEP budget
+
+Accuracy is budgeted in one-sigma radial terms and combined in root-sum-square, with CEP related to the radial standard deviation by the standard circular relationship.
+
+  Error source                                         1-sigma allocation
+  ---------------------------------------------------  ------------------
+  Navigation (GNSS/INS) at impact                            5 m
+  Guidance and control (prediction, ring angle, force)      17 m
+  Meteorological and muzzle-velocity residual                5 m
+  Remaining aerodynamic and model uncertainty                8 m
+  Fuze and detonation dispersion                              3 m
+  ---------------------------------------------------  ------------------
+  Root-sum-square                                            20.3 m
+  Implied CEP (1.1774 x sigma)                             ~23.9 m
+
+The budget closes with margin against the 30 m requirement.
+
+11.3 Where the margin comes from, and where the risk sits
+
+The budget makes clear that the dominant term is guidance and control, not raw navigation and not canard force. The three measures that protect it are: an accurate aerodynamic model so that impact prediction is trustworthy; the adaptive, state-dependent limits so that authority is never lost; and the ring-angle measurement, because an error in ring angle is a direct error in the direction of the guidance force.
+
+11.4 Graceful degradation
+
+With GNSS degraded, the navigation solution coasts on inertial data and the correction accuracy degrades smoothly towards the inertial drift limit rather than failing. With guidance unavailable, the round flies ballistically and the fuze functions on its set mode — subject to one condition. If the kit's own prediction says the round will arrive more than 150 m from the loaded target, the fuze withholds function rather than detonating where it was not aimed, as set out in §6.5.
+
+The rule that governs every fault class is that no degradation mode may be worse than unguided. That rule is an accuracy rule, and it is worth being precise about what it does and does not cover: a failed guidance system returns the round to the dispersion it would have had anyway, but it does not change where the round lands relative to the intended target, and no accuracy rule can. The predicted-miss position in §6.5 is the separate answer to that second question: it is the kit's own prediction, not an accuracy rule, that decides whether the round functions.
+
+11.5 Status of every figure claimed here
+
+Every number here is a derived design figure, not a measured service value,
+and each has a named closer. RSS 20.3 m and the implied ~23.9 m CEP are
+this design's budget; §10.3 produces the flight CEP. The authority set
+(18.1 N minimum, 450 m against 407 m required, 1.11:1) and the 15-25 N
+band come from the sizing analysis on the parametric 45.0 kg public-data
+platform - provisional on the §10.2 coefficient set, re-quantified in
+§10.3. The machine figures (2.92 kW peak, ~121 kJ) are sizing values at
+flight spin, confirmed on the §10.5 rig. The 5 m navigation line (derived
+3.7 m sub-allocation) is validated in §10.3. Mass (~2.7 kg aluminium, net
++3.9%) is CAD analysis, not a weighed article; the material, ring and
+retention trade closes at detailed design against the >90% range gate.
+Cost (₹6.5 lakh at 5,000 per year) is an objective; the priced roll-up
+follows selection. The 382 kN setback and 736 N magnet shear are derived
+load cases, closed by structural analysis.
+
+====================================================================
+12. MANUFACTURABILITY AND COST OPTIMISATION
+====================================================================
+
+This architecture is deliberately chosen to be cheap to make, because cost is the competitive premise of the problem statement and because YIL's advantage is precision mechanical manufacturing at volume.
+
+The part-count economy comes first:
+
+- No control actuators, no gearboxes, no servo electronics and no control-surface linkages. The single moving assembly is the canard ring on two bearings, and the alternator is the only electromechanical machine in the kit.
+- The fuze and guidance electronics share a processor, a power supply and a housing, so the part count is well below that of a conventional guided projectile.
+- No in-flight battery to qualify for a 90 s high-vibration flight, and no battery thermal management.
+- The kit occupies the fuze well and forward ogive only, so YIL's existing shell body, charge system, driving band and gun interface are untouched and no re-qualification of the shell is required. The design is dimensionally parametric in kit mass and centre of gravity, so it can be matched across the 155 mm family without redesigning the control concept.
+
+Processes are then chosen against a stated production volume of 5,000 kits per year, and they divide into two tiers. The cost objective is ₹6.5 lakh (about US$7,800) recurring per kit at that volume against the fielded kit's published US$13,541, with development and tooling excluded.
+
+The production tier uses processes that are mature and volume-capable:
+
+- The canard ring and canards are machined as one datum structure. Cant angle sets the guidance force, so it is held by a single machine setup rather than by an assembly tolerance stack, and the 382 kN axial setback load is carried through continuous metal in the retention path rather than through fasteners.
+- The stator core is selected between thin 0.1-0.2 mm laminations and a compacted soft-magnetic-composite core, on a published trade of loss against mechanical strength. The compaction route suits this volume because the tooling is a die rather than a bespoke lamination stack, and its published core loss (about 83 W/kg at 1 T and 1 kHz, with the material characterised to 5 kHz) covers the machine's electrical frequency range.
+- The winding is a conventional concentrated winding. At the machine's 2,130 Hz electrical frequency the copper skin depth is approximately 1.4 mm, so printed or litz conductors are not needed on loss grounds; the conductor subdivision actually required is set by the converter's switching spectrum, and the winding is specified against it.
+- Magnets are NdFeB of the required high-temperature grade, segmented with insulated interfaces and mechanically retained so that the 736 N shear on each magnet under launch acceleration is carried by metal and not by adhesive. The coercivity is bought through grain-boundary diffusion, which places heavy rare earth only at the grain boundaries instead of throughout the magnet - the same SH/UH class at materially lower critical-element cost.
+- The fuze-well thermal path is a manufactured interface rather than an inherited thread: a compliant contacting sleeve, indium foil specified against contact pressure, and cold-sprayed copper on the kit's own spigot to provide a precision mating surface without touching the shell.
+- The control-energy dump uses an aluminium-nitride thick-film power resistor package, the standard high-power-density class, with graphite sheet spreading the heat into the kit structure.
+- Small fuze parts are specified for metal injection moulding where the part family justifies the tooling, with the tooling amortisation stated rather than assumed.
+- The spin-axis GNSS aperture is realised as laser-direct-structured conductive traces on a moulded nose part, so the aperture is part of the structure and consumes no separate antenna volume.
+
+The development tier is where the novel processes live, and they are declared rather than implied. Additively manufactured iron cores, printed copper windings and hybrid printed end-windings are development and first-article tools, not production assumptions: they are bounded by published process data held in the manufacturing dossier, and they carry their own qualification cost, which is not hidden inside the recurring unit cost. Their validation is post-selection first-article work.
+
+The dominant recurring cost drivers are the machine, the power electronics, the bearings, the fuze stack, the navigation set, the dump and buffer, and the housing - all conventional, sourced, and reducible by volume. At 5,000 kits per year the governing process question is tooling amortisation, which is why every production process above needs either no new tooling or a die shared across a part family.
+
+Within that plan, the complex low-volume parts are made in a digital cell rather than on a fixed line: robotic metal and polymer printing with a named post-treatment chain (hot isostatic pressing, heat treatment, machining of bearing seats and sealing faces, surface finishing), automated placement and assembly, and a build record per part. Each known weakness of printing has a named treatment, and qualification follows the established route of process control, coupons and testing.
+
+The cell is also why the design can keep improving after selection: the printed parts carry no tooling, so when the shell drawing arrives their geometry changes in days rather than in a die programme, and a variant is a design change rather than a retooling programme. A modular sensor stack with targeted redundancy - a second inertial and magnetic channel and a second ring-angle pickoff of different physics - adds grams and milliwatts, not boards and brackets.
+
+Three bounds: the cell prints structure and signals, not power, so the machine current stays on conventional copper; the fuze's explosive train stays in the licensed, segregated line, never inside the automated cell; and printing changes the shape of qualification, it does not remove it.
+
+====================================================================
+13. CONSTRAINT COMPLIANCE
+====================================================================
+
+  Compatibility with existing 155 mm shell
+    The kit is a fuze-well and ogive replacement only. Kit mass, centre of
+    gravity and axial inertia are treated as design variables and are held
+    within the limits that preserve the shell's gyroscopic stability across
+    the charge and temperature envelope. The canards are permanently
+    exposed, held inside the bore by a 2 mm per side clearance budget that
+    caps the canard tips at Ø151 mm.
+
+  High launch acceleration, vibration, spin and environment
+    Structural load cases are taken from the launch environment. Bearings,
+    ring retention and the launch load path are designed for the governing
+    setback and spin cases, with the setback load routed around the flight
+    bearings rather than through them. Electronics are potted and the
+    inertial module is shock-isolated. Verification is by bench rig, shock
+    sled and environmental test.
+
+  Low Size, Weight, Power and Cost
+    Single moving assembly, no actuators, flight power self-generated
+    (reserve battery for pre-launch and safe state only), shared
+    processor and power supply, and unchanged shell hardware.
+
+  High reliability and safety
+    Out-of-line safe-and-arm unit with dual environmental interlocks,
+    no arming path without launch power, independent impact switch, and
+    graceful degradation in every electronic failure mode.
+
+  Modularity and future upgrade
+    Four modules on a common mechanical and electrical backbone: fuze,
+    canard actuation assembly, GNC and power. A future anti-jam GNSS, an
+    improved seeker or a different fuze can be substituted at module level.
+
+====================================================================
+14. PROOF OF CONCEPT PLAN
+====================================================================
+
+The preferred deliverable is a prototype or proof of concept. Our plan builds it in three steps, in order of information gained per rupee spent:
+
+  Step 1 - Simulation (no hardware). Seven-degree-of-freedom trajectory
+  model with the guidance loop in the loop, and the Monte Carlo dispersion
+  analysis that produces the CEP estimate and the error budget. Delivers
+  the trajectory-correction demonstration, the guidance and control
+  algorithm, and the performance estimation.
+
+  Step 2 - Bench demonstrator. A reduced rotating dynamometer rig: the
+  canard ring on its bearings, an alternator, a motor to impose relative
+  spin, a torque motor to impose the aerodynamic torque profile, a
+  programmable load, and a magnetometer and pickoff for ring-angle
+  measurement. Demonstrates closed-loop ring-angle tracking under applied
+  disturbance, the disturbance observer, the adaptive limits and the
+  anti-windup behaviour. This is the proof of concept that the constraints
+  are achievable in hardware.
+
+  Step 3 - Integration demonstrator. Fuze module and GNC module integrated
+  on the common backbone, with the inductive programming interface
+  exercised end to end, mode selection verified, and the safe-and-arm
+  logic functionally demonstrated under simulated setback and spin.
+
+  Deliverables produced along the way: system architecture document,
+  CAD model of the canard actuation assembly with structural analysis
+  under the launch load case, electronics block diagram, guidance and
+  control algorithm with simulation results, and the performance
+  estimation.
+
+====================================================================
+15. NOVELTY — WHAT IS ADOPTED, AND WHAT THIS DESIGN CONTRIBUTES
+====================================================================
+
+The two are separated rather than merged, because a claim that a
+specialist can dismantle costs more than it earns.
+
+Adopted from established work, and credited as such:
+
+- The de-spun canard assembly architecture itself. The fielded **M1156 Precision Guidance
+  Kit** — the system the problem statement asks us to indigenise — is
+  publicly documented as a de-spun canard assembly with fixed canards, no
+  mechanical actuators, one moving part, self-generating power and no
+  battery, and full two-dimensional guidance to impact. Every one of those
+  properties is a design target for this kit, not an invention of it.
+  US Patent 6,981,672 (2006, now expired) claims the fixed-canard
+  two-pair architecture itself: a counter-rotating nose on bearings, one
+  pair for net roll torque and one for net guidance force, steered by
+  holding the de-spun nose at a commanded roll angle, with the alternator
+  as the de-spin actuator. The two-pair split and the alternator as
+  actuator are credited lineage, not contributions of this design.
+- Impact-point-prediction guidance for a dual-spin projectile with fixed
+  canards, which is established in the published literature.
+- Out-of-line safe-and-arm practice and the gun-line inductive fuze
+  setter, which are existing standards and existing procedure. The
+  transmit-and-repeat read-back is the standard's own error-detection
+  mechanism rather than a design feature of ours.
+- **In-flight correction of the time setting.** NATO AOP-22 registers a
+  course-correction fuze — the XM8, "course-correction electronic time
+  fuze" — which corrects its time in flight to improve accuracy, so this
+  is fielded practice in this airframe class and is credited as such.
+- Multi-mode fuzing as such: the fielded Israeli kit offers point
+  detonation, point detonation delay and airburst, so a three-mode set is
+  at parity in count rather than ahead of it.
+
+Contributions of this design — stated narrowly, because each of these is
+checkable:
+
+- The machine sized as a loaded generator in a flight-representative
+  envelope. Running the alternator at real body-spin speed rather than at
+  bench scale reveals a 2.92 kW peak and approximately 121 kJ per flight
+  that the reference work could not have seen, and that we have found no
+  published treatment of this architecture reporting.
+- The thermal interface that follows from it, stated as a requirement:
+  the control energy leaves through the fuze-well threads, the bare
+  2 in-12 UNS thread conducts approximately 3-16 W/K against a peak
+  requirement of 58 W/K or better, and the closing route — a contacting
+  radial path through the well bore, a conductance-specified joint and a
+  peak/average split — is designed rather than assumed.
+- The de-spun ring used as the inertial sensing platform, which removes
+  1107-1912 rad/s of spin from the measurement and converts the hardest
+  sensing problem in a spin-stabilised guided shell into a conventional
+  low-rate navigation problem. The published work on this airframe
+  assumes in-flight roll knowledge rather than solving it - the analyses
+  take the roll signal as given - so the ring-as-platform and its pickoff
+  are ours to prove, and proving them is a named task of the bench
+  programme. This
+  is a deliberate departure from the fielded kit, which determines its
+  roll angle from GNSS and carries no inertial sensors; it is a cost and
+  complexity addition and is justified by the requirement to operate when
+  GNSS is contested.
+- A spin-invariant GNSS aperture on the spin axis, with elements combined
+  rather than switched, so there is no spin-frequency modulation to track
+  out and a standard receiver remains usable.
+- A state-dependent authority gate on the guidance channel, which turns
+  the apogee authority collapse from a failure mode into a designed
+  constraint and makes a 1.11:1 authority margin usable.
+- The guidance law carries its own error estimator. The impact-point
+  predictor augments its state with the biases pre-fire data cannot
+  know — realised muzzle-velocity error, drag bias against the model,
+  wind along the path already flown —
+  estimated in flight from the sensors already aboard and
+  folded into every correction. It targets the error budget's two
+  largest terms, prediction and meteorological residuals [2, 12]. Bias
+  estimation per se is established practice; the integration is the
+  contribution.
+- A three-mode electronic fuze — proximity, time and impact — in one unit
+  sharing the nose with the guidance electronics, matching the three
+  categories the Indian Army's electronic-fuze RFI lists separately, and
+  configured over the existing gun-line setter. What distinguishes it is
+  not the count of modes but that the **time** mode exists at all and is
+  corrected in flight by our own navigation solution rather than by a
+  ballistic firing-table prediction.
+- Range retention as a stated requirement rather than an unexamined
+  consequence: the kit is specified to retain better than 90% of the
+  conventional all-up round's maximum range, which is the figure the
+  fielded kit publishes and which puts a price on the canards' drag and
+  the kit's own mass.
+- Mass is the trade that is still open, and it is stated at its current value.
+  The aluminium analysis lands the kit at approximately 2.7 kg — the same model
+  masses 4.8 kg in steel — roughly twice the fielded kit's total mass and about
+  four times its net penalty over the fuze. The net penalty is about +1.7 kg,
+  which is 3.9% of the 45 kg all-up round. The 1.4 kg target class is not yet
+  met, and the levers are named: the material choice, the axial-flux trade, the
+  ring diameter and retention hardware, with a hollowed spigot already banked
+  (-0.59 kg) and make-versus-buy still open. The gate the mass must close
+  against is the stated range-retention requirement: better than 90% of the
+  conventional round's maximum range.
+
+The upgrade path is stated as an option, never a capability:
+through a reserved module interface - whose mechanical and electrical
+definition is post-selection work - the two credible extensions are a
+cooperative beacon fix — one expendable coded beacon near the target,
+an absolute terminal reference under GNSS denial [11] — and a
+semi-active laser seeker of the fielded gun-launched kind. Neither is fitted, funded or flown.
+
+====================================================================
+16. REFERENCES
+====================================================================
+
+1. G. Gunay, "Controller Design and Implementation for a Guidance Kit Used at Spinning Rockets and Projectiles," M.Sc. thesis, METU, 2022.
+2. X. Zhang, X. Yao and Q. Zheng, "Impact point prediction guidance for dual-spin projectile with fixed canards," Chinese Journal of Aeronautics, vol. 32, no. 8, 2019.
+3. G. Clancy, T. Bybee and D. Friedrich, "Fixed canard 2-D guidance of artillery projectiles," US Patent 6,981,672, 2006 (expired).
+4. Orbital ATK, "Precision Guidance Kit (PGK) Program Update," NDIA Armament Systems Forum, 2015.
+5. "M1156 Precision Guidance Kit," public programme record, US Army Project Manager Combat Ammunition Systems.
+6. Elbit Systems, "Silver Bullet II" product brochure.
+7. R. Jaiswal, M. Kothari and A. Abhishek, "Design and aerodynamic characterization of canard guided fuze for dual-spin artillery projectiles," AIAA 2024-1105.
+8. NATO AOP-22, "Design Criteria and Test Methods for Inductive Setting of Large Calibre Projectile Fuzes," Edition B Version 1, 2018.
+9. NATO STANAG 4369 / AOP-39; MIL-STD-1316; MIL-STD-331C; MIL-STD-810F; MIL-STD-461; STANAG 4439; STANAG 9216 / MIL-STD-333B.
+10. Problem statement SIH26098, Ministry of Defence / Yantra India Limited, Smart India Hackathon 2026.
+11. NATO STO, "Navigation Using Pseudolites, Beacons, and Signals of Opportunity," STO-EN-SET-197-08.
+12. "Prediction of Projectile Impact Point using Approximate Statistical Moments," IEEE, 2018.
