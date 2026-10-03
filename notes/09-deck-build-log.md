@@ -28,4 +28,14 @@ Sources read (text only, no images): `notes/00-INDEX.md` · `notes/08-freedom-le
 - Wireframe adjusted to real heights: chart 600×528 tall-left (08-spec variant), fig4 561×440 (0.85× nominal, grow to 0.94× as text allows), bullets x632–1264 y506–704, thumbs strip bottom-left. Trim ladder recorded in 07.
 - Figure specs F3-0…F3-4 written (chart, fig4 REQUIRED, 05/21/19 thumbs with h1–h6 callouts).
 
-**Next:** Round 3 — slide 4 (feasibility and viability): budget/authority/mass honesty blocks + fig2/fig3.
+## Round 3 — slide 4 + figure scrub (2026-10-02)
+
+- **Figure-integrity finding → decision (user): scrubbed SVG copies.** fig2 audited clean (canonical numbers only). fig3 and fig4 broke the deck rules *inside the image*: fig3 printed `14.1 N on the gated phase` (contradicting the printed ≥ 18.1 N claim), `apogee t ≈ 41 s`, `impact t ≈ 86 s`, a fixed 15 s window start (against "gate-computed, not timed"); fig4 carried criterion IDs (`[H1, G17]`-style), `OPEN` status tags, and non-canonical numbers (275 ms, 231 V, 24 GHz, 480/240 MHz, 150–200 J, ≈20:1, ≈12 W, 0.5–1.5 W, ≥1 J, +5.8 K, 10°, Ø30 mm, 0.1–199.9 s).
+- Clean copies built from modified generator copies (repo2 untouched) → `submission-resources/deck-assets/fig3-canard-authority-clean.svg` + `fig4-system-flowchart-clean.svg` (fig4 also got the mandatory lineage credit footer). fig2 used as-is. Slide-3 mockup rebuilt on the clean fig4; scrub scan of both SVGs clean.
+- Slide 4 text delivered (python-verified): 14 bullets = 1,708 chars (F1–F10 feasibility · R1–R4 challenges→strategies) + captions/callouts 229 = 1,937. Wireframe: bullets left x20–660 · fig2 + fig3-clean stacked right at native 1.0× · optional F4-3 (10-section) zone.
+
+**Repo2 patch proposals (propose-only — repo2 never edited):**
+1. `fig3_canard_authority.py`: cut the `14.1 N` legend variant → `dashed: 18.1 N required over the guided window`; time ticks → phase labels (`launch / mid-flight / impact`) with axis `flight phase — the window opens and closes by the authority gate`; `apogee t ≈ 41 s` → `apogee`; `impact t ≈ 86 s` → `impact — ≈ 90 s`; `inhibited band` → `gate limits command`; add footnote `Derived figures; the guided-window analysis re-quantifies them.`; open_svg height 216 → 232.
+2. `fig4_system_flowchart.py`: apply the scrub list above (IDs, status tags, non-canonical numbers) + the lineage credit line before `close_svg()`. Full replacement map = `deck-assets/fig4_system_flowchart.py` (the modified copy).
+
+**Next:** Round 4 — slide 5 (impact and benefits): cost honesty block, rounds/charges, growth wording.

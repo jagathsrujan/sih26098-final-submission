@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 566 232" width="566" height="232" role="img" aria-label="Canard force and guidance authority against time" style="font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;display:block">
+<title>Canard force and guidance authority against time</title>
+<desc>Available control force envelope with the guided window shaded and the gate-limited band marked.</desc>
+<text x="46" y="22" text-anchor="start" style="font-size:11.5px;fill:var(--f-ink, #10151b);font-weight:600">Canard force and guidance authority against time</text>
+<rect x="129.333" y="34" width="394.444" height="118" rx="0" style="fill:var(--f-tint, rgba(11,92,173,.13));stroke-width:1"/>
+<rect x="240.444" y="34" width="111.111" height="118" rx="0" style="fill:var(--f-paper, #ffffff);stroke:var(--f-flag, #a4551a);stroke-width:1;stroke-dasharray:3 3"/>
+<line x1="46" y1="124.053" x2="546" y2="124.053" style="stroke:var(--f-rule, #d9dee4);stroke-width:1"/>
+<text x="40" y="127.053" text-anchor="end" style="font-size:9px;fill:var(--f-ink3, #7b8794);font-weight:400">-50</text>
+<line x1="46" y1="93" x2="546" y2="93" style="stroke:var(--f-rule, #d9dee4);stroke-width:1.2"/>
+<text x="40" y="96" text-anchor="end" style="font-size:9px;fill:var(--f-ink3, #7b8794);font-weight:400">0</text>
+<line x1="46" y1="61.9474" x2="546" y2="61.9474" style="stroke:var(--f-rule, #d9dee4);stroke-width:1"/>
+<text x="40" y="64.9474" text-anchor="end" style="font-size:9px;fill:var(--f-ink3, #7b8794);font-weight:400">+50</text>
+<text x="40" y="28" text-anchor="end" style="font-size:9px;fill:var(--f-ink3, #7b8794);font-weight:400">N</text>
+<line x1="46" y1="152" x2="46" y2="156" style="stroke:var(--f-rule, #d9dee4);stroke-width:1"/>
+<text x="46" y="167" text-anchor="middle" style="font-size:9px;fill:var(--f-ink3, #7b8794);font-weight:400">launch</text>
+<line x1="296" y1="152" x2="296" y2="156" style="stroke:var(--f-rule, #d9dee4);stroke-width:1"/>
+<text x="296" y="167" text-anchor="middle" style="font-size:9px;fill:var(--f-ink3, #7b8794);font-weight:400">mid-flight</text>
+<line x1="546" y1="152" x2="546" y2="156" style="stroke:var(--f-rule, #d9dee4);stroke-width:1"/>
+<text x="546" y="167" text-anchor="middle" style="font-size:9px;fill:var(--f-ink3, #7b8794);font-weight:400">impact</text>
+<text x="546" y="181" text-anchor="end" style="font-size:8px;fill:var(--f-ink3, #7b8794);font-weight:400">flight phase — the window opens and closes by the authority gate</text>
+<polygon points="46,40.2105 73.7778,40.2105 90.4444,77.4737 184.889,77.4737 229.333,81.8211 274.667,92.6895 312.667,88.0316 368.222,82.4421 423.778,80.5789 546,80.5789 546,105.421 423.778,105.421 368.222,103.558 312.667,97.9684 274.667,93.3105 229.333,104.179 184.889,108.526 90.4444,108.526 73.7778,145.789 46,145.789" style="fill:var(--f-tint2, rgba(11,92,173,.30));stroke-width:1"/>
+<path d="M 46,40.2105 L 73.7778,40.2105 L 90.4444,77.4737 L 184.889,77.4737 L 229.333,81.8211 L 274.667,92.6895 L 312.667,88.0316 L 368.222,82.4421 L 423.778,80.5789 L 546,80.5789" style="fill:none;stroke:var(--f-accent, #0b5cad);stroke-width:1.4"/>
+<path d="M 46,145.789 L 73.7778,145.789 L 90.4444,108.526 L 184.889,108.526 L 229.333,104.179 L 274.667,93.3105 L 312.667,97.9684 L 368.222,103.558 L 423.778,105.421 L 546,105.421" style="fill:none;stroke:var(--f-accent, #0b5cad);stroke-width:1.4"/>
+<line x1="46" y1="81.7589" x2="546" y2="81.7589" style="stroke:var(--f-ink, #10151b);stroke-width:1.2;stroke-dasharray:4 3"/>
+<line x1="46" y1="104.241" x2="546" y2="104.241" style="stroke:var(--f-ink, #10151b);stroke-width:1.2;stroke-dasharray:4 3"/>
+<line x1="46" y1="84.2432" x2="546" y2="84.2432" style="stroke:var(--f-ink, #10151b);stroke-width:1.2;stroke-dasharray:4 3"/>
+<line x1="46" y1="101.757" x2="546" y2="101.757" style="stroke:var(--f-ink, #10151b);stroke-width:1.2;stroke-dasharray:4 3"/>
+<text x="544" y="45" text-anchor="end" style="font-size:8.5px;fill:var(--f-ink2, #46525f);font-weight:400">dashed: 18.1 N required over the guided window</text>
+<line x1="274.667" y1="34" x2="274.667" y2="152" style="stroke:var(--f-ink3, #7b8794);stroke-width:1;stroke-dasharray:2 3"/>
+<text x="269.667" y="145" text-anchor="end" style="font-size:9px;fill:var(--f-ink3, #7b8794);font-weight:400">apogee</text>
+<line x1="523.778" y1="34" x2="523.778" y2="152" style="stroke:var(--f-ink3, #7b8794);stroke-width:1;stroke-dasharray:2 3"/>
+<text x="518.778" y="145" text-anchor="end" style="font-size:9px;fill:var(--f-ink3, #7b8794);font-weight:400">impact — ≈ 90 s</text>
+<text x="134.333" y="145" text-anchor="start" style="font-size:9px;fill:var(--f-accent, #0b5cad);font-weight:600">guided</text>
+<line x1="296" y1="60" x2="296" y2="80.4421" style="stroke:var(--f-flag, #a4551a);stroke-width:0.9;stroke-dasharray:2 2"/>
+<text x="296" y="57" text-anchor="middle" style="font-size:8.5px;fill:var(--f-flag, #a4551a);font-weight:400">gate limits command</text>
+<text x="46" y="196" text-anchor="start" style="font-size:8.5px;fill:var(--f-ink3, #7b8794);font-weight:400">Envelope taken from the reference flight profile.  It moves when our own aerodynamic data arrives.</text>
+<text x="46" y="210" text-anchor="start" style="font-size:8.5px;fill:var(--f-ink3, #7b8794);font-weight:400">The requirement is on the worst point inside the window, not on the average.</text>
+<text x="46" y="224" text-anchor="start" style="font-size:8.5px;fill:var(--f-ink3, #7b8794);font-weight:400">Derived figures; the guided-window analysis re-quantifies them.</text>
+</svg>

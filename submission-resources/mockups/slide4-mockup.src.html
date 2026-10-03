@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>STHIRA-PGK — slide 4 mockup (FEASIBILITY AND VIABILITY)</title>
+<style>
+  :root { --ink:#10151b; --ink2:#46525f; --ink3:#7b8794; --accent:#0b5cad; --rule:#c6ced6;
+          --sans:-apple-system,"Helvetica Neue",Helvetica,Arial,sans-serif;
+          --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html,body { background:#fff; }
+  #slide { position:relative; width:1280px; height:720px; background:#fff; overflow:hidden;
+           font-family:var(--sans); color:#141a20; }
+  .n { font-family:var(--mono); font-size:.94em; }
+
+  #bullets { position:absolute; left:20px; top:56px; width:640px; height:648px; }
+  .grouplabel { font-size:9px; letter-spacing:.09em; color:var(--ink3); margin:4px 0 4px; }
+  #bullets ul { list-style:none; }
+  #bullets li { font-size:12.5px; line-height:1.28; text-indent:-9px; padding-left:9px; margin-bottom:2px; }
+  #bullets li::before { content:"– "; color:var(--ink2); }
+
+  .figcap { position:absolute; font-size:9px; color:var(--ink3); width:566px; }
+  .fig { position:absolute; left:676px; width:566px; }
+
+  #f43 { position:absolute; left:676px; top:560px; width:588px; height:144px; border:1px solid var(--rule); overflow:hidden; }
+  #f43 img { width:100%; height:100%; object-fit:cover; display:block; }
+  .callout { position:absolute; font-size:8px; line-height:1.15; color:#141a20;
+             background:rgba(255,255,255,.9); border-left:2px solid var(--accent); padding:1px 3px; }
+</style>
+</head>
+<body>
+<div id="slide">
+
+  <div id="bullets">
+    <div class="grouplabel">feasibility analysis</div>
+    <ul class="num-src">
+      <li>Error budget — nav 5 / G&amp;C 17 / meteo 5 / aero 8 / fuze 3 → RSS 20.3 m → CEP ≈ 23.9 m vs ≤ 30 m required: derived budget; the 7-DOF Monte Carlo produces the flight CEP</li>
+      <li>The nav line carries a derived 3.7 m sub-allocation (GNSS 3.0 / IMU+filter 2.0 / timing+lever 1.0)</li>
+      <li>Authority ≥ 18.1 N minimum over the guided window — derived figures; the guided-window analysis re-quantifies them</li>
+      <li>450 m of correction available vs 407 m required (80 % capture) → 1.11:1 — a margin, not comfort</li>
+      <li>Mass ≈ 2.7 kg aluminium analysis (4.8 kg steel); net +1.7 kg ≈ 3.9 % of the 45.0 kg round — CAD analysis, not a weighed article</li>
+      <li>The 1.4 kg target class is not yet met — levers: material, ring diameter, retention (spigot −0.59 kg banked)</li>
+      <li>Gate: retain &gt; 90 % of the conventional round's maximum range</li>
+      <li>Validation: 7-DOF Monte Carlo — 5,000 design + 5×1,000 corners, worst-corner 95 % bound — then HIL, rotating dynamometer rig (plan, not an asset), integration demonstrator</li>
+      <li>Standards: MIL-STD-1316 · 331C · 810F · 461 · AOP-22 Ed B Ver 1 · STANAG 4369/AOP-39 · 4439 · 9216/MIL-STD-333B</li>
+      <li>Manufacturing: two-tier process at 5,000 kits/yr — one moving assembly, no shell re-qualification, tooling amortised; candidate processes validated post-selection</li>
+    </ul>
+    <div class="grouplabel">potential challenges and risks · strategies for overcoming them</div>
+    <ul class="num-src">
+      <li>Aerodynamic coefficient set is the acknowledged long pole → published data + CFD fill the gaps, uncertainty carried into the CEP budget</li>
+      <li>Mass trade → named levers; the &gt; 90 % range-retention gate decides</li>
+      <li>GNSS contested → inertial coast to the drift limit; anti-jam GNSS as a module substitution; growth modules are options, never delivered capability</li>
+      <li>Thermal duty — 2.92 kW peak / ≈ 121 kJ per flight (derived sizing figures) → designed interface ≥ 58 W/K vs 3–16 W/K bare thread; the rig closes it</li>
+    </ul>
+  </div>
+
+  <!-- F4-1: fig2-error-budget as-is (audited clean) -->
+  <img class="fig" style="top:56px"  alt="fig2-error-budget"          src="data:image/svg+xml;base64,__FIG2__">
+  <div class="figcap" style="top:278px">derived budget — the 7-DOF Monte Carlo produces the flight CEP</div>
+
+  <!-- F4-2: fig3-canard-authority CLEAN (scrubbed copy) -->
+  <img class="fig" style="top:302px" alt="fig3-canard-authority-clean" src="data:image/svg+xml;base64,__FIG3__">
+  <div class="figcap" style="top:542px">derived figures; the guided-window analysis re-quantifies them</div>
+
+  <!-- F4-3: optional 10-section crop with callouts -->
+  <div id="f43">
+    <img alt="10-section-through-axis" src="data:image/png;base64,__CAD10__">
+    <div class="callout" style="left:8px;top:8px">382 kN axial setback (derived) — continuous metal path</div>
+    <div class="callout" style="left:8px;bottom:8px">machine · bearing · train bore · buffer on one axis</div>
+  </div>
+
+</div>
+<script>
+  document.querySelectorAll('.num-src').forEach(function (el) {
+    el.innerHTML = el.innerHTML.replace(
+      /(\d[\d.,:/\-–−]*\s?(?:kHz|MHz|Hz|W\/K|kW|kJ|kg|V|N|m|s|%|×|°)?)/g,
+      '<span class="n">$1</span>');
+  });
+</script>
+</body>
+</html>

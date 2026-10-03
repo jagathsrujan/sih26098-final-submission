@@ -18,7 +18,7 @@ Living content file — grown one slide per approved round (2 → 3 → 4 → 5 
 | `cad/05-shell-kit-section.png` | 3, thumb strip | Thermal path through the fuze well |
 | `cad/21-part-fuze-train.png` | 3, thumb strip | Fuze train + out-of-line S&A |
 | `cad/19-part-electronics-stack.png` | 3, thumb strip | Electronics stack |
-| Spares: `fig2-error-budget`, `fig3-canard-authority`, `fig1-dispersion`, `10-section-through-axis`, `01/04-assembly` | 4/5, trim bank | slide 4 = fig2+fig3; slide 5 = 04 or 01 |
+| Spares: `fig2-error-budget`, `fig3-canard-authority`, `fig1-dispersion`, `10-section-through-axis`, `01/04-assembly` | 4/5, trim bank | slide 4 = fig2 (clean as-is) + `deck-assets/fig3-canard-authority-clean.svg`; slide 5 = 04 or 01 |
 
 CAD PNGs: 16:9 ~2400×1350, white background, gate-checked solids. Numbers visible in renders (124.70 mm intrusion, 0.400 mm air gap, cant) are interface verifications — **none print**.
 
@@ -147,7 +147,7 @@ Trim ladder if it doesn't fit at export: (1) drop S10's parenthetical to "rig (p
 
 **F3-0 — the centerpiece chart:** `08-flowchart-spec.md`, tall variant at 600×528 (tight vs the 648 target: fold N1/N2 into one launch-and-de-spin band or take sub-notes to 7.5 px — edge labels carry the detail). This is where "launch → … → impact" is read in one pass; slide 2's pointer chip leads here.
 
-**F3-1 — `fig4-system-flowchart.svg/.png`:** REQUIRED (the PS's electronics block-diagram deliverable). 660×518 native, no cropping, its own title and lane labels stay. Nominal 0.85× (561×440); grow toward 0.94× if the bullets trim.
+**F3-1 — `fig4-system-flowchart.svg/.png`:** REQUIRED (the PS's electronics block-diagram deliverable). 660×518 native, no cropping, its own title and lane labels stay. Nominal 0.85× (561×440); grow toward 0.94× if the bullets trim. Embed the scrubbed `../deck-assets/fig4-system-flowchart-clean.svg`, never the repo2 original.
 
 **F3-2 — thumb `cad/05-shell-kit-section.png`** (crop: fuze-well/thread region). Teaches: the declared thermal path into the shell.
 - h1 (36) `heat path: fuze-well threads → shell`
@@ -161,14 +161,63 @@ Trim ladder if it doesn't fit at export: (1) drop S10's parenthetical to "rig (p
 - h5 (47) `avionics · dump resistor · buffer · setter coil`
 - h6 (37) `one-way arming-gated link to the fuze`
 
-## Slide 4 — FEASIBILITY AND VIABILITY *(status: skeleton — text delivered round 3)*
+## Slide 4 — FEASIBILITY AND VIABILITY *(status: DELIVERED round 3; figure scrub = cleaned copies in `deck-assets/`)*
 
-- Error budget: nav 5 / G&C 17 / meteo 5 / aero 8 / fuze 3 → RSS 20.3 m → CEP ≈ 23.9 m vs ≤ 30 m — "derived budget; the 7-DOF Monte Carlo produces the flight CEP".
-- Authority: ≥ 18.1 N minimum over the guided window — "derived figures; re-quantified in the guided-window analysis" · 450 m available vs 407 m required (80 % capture) → 1.11:1 — "a margin, not comfort".
-- Mass: ≈ 2.7 kg aluminium analysis (4.8 kg steel), net +1.7 kg ≈ 3.9 % of the 45.0 kg round; 1.4 kg target class not yet met; levers (material, ring diameter, retention; spigot −0.59 kg banked); gate > 90 % range retention — "CAD analysis, not a weighed article".
-- Challenges → mitigations: aero coefficient set = the long pole → published data + CFD + uncertainty carried into CEP · mass → named levers + range gate · GNSS contested → degradation ladder + module options · thermal ≥ 58 W/K vs 3–16 W/K bare thread → designed interface, rig closes.
-- Validation: 7-DOF MC · HIL · rotating dynamometer rig · demonstrator. Standards: MIL-STD-1316 / 331C / 810F / 461 · AOP-22 Ed B Ver 1 · STANAG 4369/AOP-39 · 4439 · 9216/MIL-STD-333B. Manufacturability: two-tier process at 5,000 kits/yr, no shell re-qualification, tooling amortisation; candidate processes "validated post-selection" (no process numbers).
-- Figures: fig2-error-budget + fig3-canard-authority + CAD 10/11 (trim-bank arrivals from slide 3).
+### Bullet text (paste-ready; python-verified)
+
+F1–F10 under the template pointer **"feasibility analysis"** · R1–R4 under **"potential challenges and risks · strategies for overcoming them"**.
+
+| # | Text | chars |
+|---|---|---|
+| F1 | `Error budget — nav 5 / G&C 17 / meteo 5 / aero 8 / fuze 3 → RSS 20.3 m → CEP ≈ 23.9 m vs ≤ 30 m required: derived budget; the 7-DOF Monte Carlo produces the flight CEP` | 167 |
+| F2 | `The nav line carries a derived 3.7 m sub-allocation (GNSS 3.0 / IMU+filter 2.0 / timing+lever 1.0)` | 98 |
+| F3 | `Authority ≥ 18.1 N minimum over the guided window — derived figures; the guided-window analysis re-quantifies them` | 114 |
+| F4 | `450 m of correction available vs 407 m required (80 % capture) → 1.11:1 — a margin, not comfort` | 95 |
+| F5 | `Mass ≈ 2.7 kg aluminium analysis (4.8 kg steel); net +1.7 kg ≈ 3.9 % of the 45.0 kg round — CAD analysis, not a weighed article` | 127 |
+| F6 | `The 1.4 kg target class is not yet met — levers: material, ring diameter, retention (spigot −0.59 kg banked)` | 108 |
+| F7 | `Gate: retain > 90 % of the conventional round's maximum range` | 61 |
+| F8 | `Validation: 7-DOF Monte Carlo — 5,000 design + 5×1,000 corners, worst-corner 95 % bound — then HIL, rotating dynamometer rig (plan, not an asset), integration demonstrator` | 171 |
+| F9 | `Standards: MIL-STD-1316 · 331C · 810F · 461 · AOP-22 Ed B Ver 1 · STANAG 4369/AOP-39 · 4439 · 9216/MIL-STD-333B` | 111 |
+| F10 | `Manufacturing: two-tier process at 5,000 kits/yr — one moving assembly, no shell re-qualification, tooling amortised; candidate processes validated post-selection` | 162 |
+| R1 | `Aerodynamic coefficient set is the acknowledged long pole → published data + CFD fill the gaps, uncertainty carried into the CEP budget` | 135 |
+| R2 | `Mass trade → named levers; the > 90 % range-retention gate decides` | 66 |
+| R3 | `GNSS contested → inertial coast to the drift limit; anti-jam GNSS as a module substitution; growth modules are options, never delivered capability` | 146 |
+| R4 | `Thermal duty — 2.92 kW peak / ≈ 121 kJ per flight (derived sizing figures) → designed interface ≥ 58 W/K vs 3–16 W/K bare thread; the rig closes it` | 147 |
+
+Bullets = 1,708 chars (14) · captions + optional callouts = 229 · **slide 4 total = 1,937**.
+
+Number honesty map: budget 5/17/5/8/3 → 20.3 → 23.9 → "derived budget; the MC produces the flight CEP" · 3.7/3.0/2.0/1.0 → "derived sub-allocation" · 18.1 N → "derived figures; re-quantified in the guided-window analysis" · 450/407/1.11:1 → "a margin, not comfort" · 2.7/4.8 kg, 3.9 % → "CAD analysis, not a weighed article" · 1.4 kg → "not yet met" · > 90 % = requirement gate (plain) · MC counts = plan values ("worst-corner 95 % bound") · 2.92 kW / ≈121 kJ → "derived sizing figures" · 58/3–16 W/K → "designed interface; the rig closes it" · 382 kN (optional callout) → "(derived)". **No time values anywhere** — the guided window is gate-computed.
+
+### Wireframe (1280×720)
+
+```
+┌────────────────────────────────────┬──────────────────────────────┐
+│ FEASIBILITY ANALYSIS               │ fig2-error-budget.svg         │
+│   F1 … F10                         │ 566×216 native 1.0×           │
+│                                    │ x676 y56 · caption y278       │
+│ POTENTIAL CHALLENGES AND RISKS →   ├──────────────────────────────┤
+│   STRATEGIES FOR OVERCOMING THEM   │ fig3-canard-authority-clean   │
+│   R1 … R4                          │ 566×232 native 1.0×           │
+│ x20–660 y56–704 (12–12.5 px,       │ x676 y302 · caption y540      │
+│ mono for numbers, hyphen bullets)  ├──────────────────────────────┤
+│                                    │ y560–704: optional F4-3       │
+│                                    │ (10-section crop) or clean    │
+└────────────────────────────────────┴──────────────────────────────┘
+```
+
+Trim ladder: (1) F4-3 zone goes clean first, (2) F2 is the first bullet cut (supporting detail), (3) merge F6 into F5.
+
+### Figure specs — slide 4
+
+**F4-1 — `fig2-error-budget.svg` AS-IS** (566×216, native size). The RSS waterfall (NAV 5 / G&C 17 / MET 5 / AERO 8 / FUZE 3 → RSS 20.3 → CEP 23.9 vs the 30 m claim). Audited clean: canonical numbers only, no IDs. Caption (62): `derived budget — the 7-DOF Monte Carlo produces the flight CEP`.
+
+**F4-2 — `../deck-assets/fig3-canard-authority-clean.svg`** (566×232, native size). Force envelope over the flight with the guided band and the gate-limited band. Scrub applied vs the repo2 original (patch proposed in `notes/09`): `14.1 N on the gated phase` CUT (contradicted the ≥ 18.1 N claim) · `apogee t ≈ 41 s` → `apogee` · `impact t ≈ 86 s` → `impact — ≈ 90 s` · time ticks → `launch / mid-flight / impact` with axis `flight phase — the window opens and closes by the authority gate` · `inhibited band` → `gate limits command` · honesty footnote added. Caption (62): `derived figures; the guided-window analysis re-quantifies them`.
+
+**F4-3 — optional (trim-bank zone only): `cad/10-section-through-axis.png`** crop ≈548×150.
+- c10a (54) `382 kN axial setback (derived) — continuous metal path`
+- c10b (51) `machine · bearing · train bore · buffer on one axis`
+
+**Slide-3 figure note (updated):** embed `../deck-assets/fig4-system-flowchart-clean.svg` — scrub applied: criterion IDs (`[H1, G17]`-style) out · `F7 / F8 thresholds OPEN` → `thresholds at hardware definition` · `≥58 W/K at the well — OPEN` → `… rig closes it` · non-canonical numbers cut (275 ms, 231 V, 24 GHz, 480/240 MHz, 150–200 J, ≈20:1, ≈12 W, 0.5–1.5 W, ≥1 J, +5.8 K, 10°, Ø30 mm, 0.1–199.9 s) · lineage credit footer added. Never embed the repo2 original on a slide. Repo2 untouched; patch proposals in `notes/09`.
 
 ## Slide 5 — IMPACT AND BENEFITS *(status: skeleton — text delivered round 4)*
 

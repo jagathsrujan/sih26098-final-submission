@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>STHIRA-PGK — slide 3 mockup (TECHNICAL APPROACH)</title>
+<style>
+  :root { --ink:#10151b; --ink2:#46525f; --ink3:#7b8794; --accent:#0b5cad; --rule:#c6ced6;
+          --sans:-apple-system,"Helvetica Neue",Helvetica,Arial,sans-serif;
+          --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html,body { background:#fff; }
+  #slide { position:relative; width:1280px; height:720px; background:#fff; overflow:hidden;
+           font-family:var(--sans); color:#141a20; }
+  .num { font-family:var(--mono); font-size:.94em; }
+
+  /* bullets bottom-right */
+  #bullets { position:absolute; left:632px; top:506px; width:632px; height:198px; }
+  .grouplabel { font-size:9px; letter-spacing:.09em; color:var(--ink3); margin:2px 0 3px; }
+  #bullets ul { list-style:none; }
+  #bullets li { font-size:11px; line-height:1.2; text-indent:-9px; padding-left:9px; margin-bottom:1px; }
+  #bullets li::before { content:"– "; color:var(--ink2); }
+
+  /* fig4 */
+  #fig4 { position:absolute; left:632px; top:56px; width:561px; height:auto; }
+
+  /* thumb strip */
+  .thumb { position:absolute; top:596px; width:205px; height:104px; border:1px solid var(--rule); overflow:hidden; background:#fff; }
+  .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+  .callout { position:absolute; font-size:7.5px; line-height:1.15; color:#141a20;
+             background:rgba(255,255,255,.9); border-left:2px solid var(--accent); padding:1px 3px; max-width:150px; }
+  .lead { position:absolute; height:1px; background:var(--accent); opacity:.8; }
+</style>
+</head>
+<body>
+<div id="slide">
+
+  <!-- F3-0: centerpiece function flowchart, per submission-resources/08-flowchart-spec.md -->
+  <svg id="chart" width="600" height="528" viewBox="0 0 600 528" xmlns="http://www.w3.org/2000/svg"
+       style="position:absolute;left:16px;top:56px" font-family="-apple-system,Helvetica,Arial,sans-serif">
+    <defs>
+      <marker id="ah" markerWidth="6" markerHeight="5" refX="5.4" refY="2.5" orient="auto">
+        <path d="M0.5,0.5 L5.5,2.5 L0.5,4.5" fill="none" stroke="#10151b" stroke-width="0.9"/>
+      </marker>
+      <marker id="ahf" markerWidth="6" markerHeight="5" refX="5.4" refY="2.5" orient="auto">
+        <path d="M0.5,0.5 L5.5,2.5 L0.5,4.5" fill="none" stroke="#a4551a" stroke-width="0.9"/>
+      </marker>
+    </defs>
+    <rect x="0.5" y="0.5" width="597" height="527" fill="#fff" stroke="#dde3e8" stroke-width="1"/>
+
+    <!-- time-phase strip -->
+    <rect x="1" y="1" width="43" height="526" fill="#f7f8fa"/>
+    <g font-size="5" fill="#7b8794">
+      <text x="5" y="26">t = 0 launch</text>
+      <text x="5" y="78">muzzle exit</text>
+      <text x="5" y="124">sensing</text><text x="5" y="131">continuous</text>
+      <text x="5" y="232">guided window</text><text x="5" y="239">(gate-computed,</text><text x="5" y="246">not timed)</text>
+      <text x="5" y="368">end game</text>
+      <text x="5" y="490"><tspan font-family="ui-monospace,Menlo,monospace">≈ 90 s</tspan> impact</text>
+    </g>
+
+    <!-- ===== nodes ===== -->
+    <!-- N1 -->
+    <rect x="170" y="8" width="280" height="40" rx="2" fill="#fff" stroke="#10151b"/>
+    <text x="310" y="23" font-size="8" font-weight="600" fill="#10151b" text-anchor="middle">Launch &amp; setback</text>
+    <text x="310" y="34" font-size="6" fill="#46525f" text-anchor="middle">set on the gun line over the AOP-22 inductive setter</text>
+    <text x="310" y="42" font-size="6" fill="#46525f" text-anchor="middle">(mode, ToF, target, MV, met)</text>
+    <!-- N2 -->
+    <rect x="170" y="56" width="280" height="48" rx="2" fill="#fff" stroke="#10151b"/>
+    <text x="310" y="71" font-size="8" font-weight="600" fill="#10151b" text-anchor="middle">De-spin</text>
+    <text x="310" y="83" font-size="6" fill="#46525f" text-anchor="middle">setback + spin interlocks release · bearing-isolated ring de-spins ·</text>
+    <text x="310" y="91" font-size="6" fill="#46525f" text-anchor="middle">alternator absorbs spin energy → bus; heat leaves through the fuze-well interface</text>
+    <!-- N3 container + chips -->
+    <rect x="60" y="112" width="470" height="80" rx="3" fill="none" stroke="#10151b"/>
+    <text x="70" y="126" font-size="7.5" font-weight="600" fill="#10151b">Sensing — the de-spun ring is the inertial platform</text>
+    <g stroke="#c6ced6" fill="#fff">
+      <rect x="70" y="134" width="218" height="22" rx="2"/>
+      <rect x="302" y="134" width="218" height="22" rx="2"/>
+      <rect x="70" y="162" width="218" height="22" rx="2"/>
+      <rect x="302" y="162" width="218" height="22" rx="2"/>
+    </g>
+    <g font-size="6.5" fill="#46525f" text-anchor="middle">
+      <text x="179" y="148">ring angle = pickoff (relative) + magnetometer (absolute)</text>
+      <text x="411" y="148">IMU on the ring</text>
+      <text x="179" y="176">GNSS on the spin-axis aperture</text>
+      <text x="411" y="176">baro aiding (altitude / air density)</text>
+    </g>
+    <!-- loop container -->
+    <rect x="60" y="202" width="470" height="152" rx="3" fill="none" stroke="#10151b"/>
+    <text x="72" y="215" font-size="7.5" font-weight="600" fill="#10151b">in-flight guidance loop — <tspan font-family="ui-monospace,Menlo,monospace">1 kHz</tspan></text>
+    <!-- N4 -->
+    <rect x="76" y="222" width="190" height="30" rx="2" fill="#fff" stroke="#10151b"/>
+    <text x="171" y="235" font-size="8" font-weight="600" fill="#10151b" text-anchor="middle">Propagate to impact (IPP)</text>
+    <text x="171" y="246" font-size="6" fill="#46525f" text-anchor="middle">onboard aero + met model</text>
+    <!-- N5 -->
+    <rect x="76" y="262" width="190" height="30" rx="2" fill="#fff" stroke="#10151b"/>
+    <text x="171" y="275" font-size="8" font-weight="600" fill="#10151b" text-anchor="middle">Compare</text>
+    <text x="171" y="286" font-size="6" fill="#46525f" text-anchor="middle">predicted vs commanded impact point</text>
+    <!-- N6 -->
+    <rect x="76" y="302" width="190" height="44" rx="2" fill="#fff" stroke="#10151b"/>
+    <text x="171" y="315" font-size="8" font-weight="600" fill="#10151b" text-anchor="middle">Authority gate (state-dependent)</text>
+    <text x="171" y="327" font-size="6" fill="#46525f" text-anchor="middle">limits command where torque collapses (apogee);</text>
+    <text x="171" y="336" font-size="6" fill="#46525f" text-anchor="middle">gate is computed, not timed</text>
+    <!-- N9 (top-right) -->
+    <rect x="330" y="222" width="184" height="40" rx="2" fill="#fff" stroke="#10151b"/>
+    <text x="422" y="235" font-size="8" font-weight="600" fill="#10151b" text-anchor="middle">Error estimator</text>
+    <text x="422" y="247" font-size="6" fill="#46525f" text-anchor="middle">MV error, drag bias, wind → corrections</text>
+    <text x="422" y="255" font-size="6" fill="#46525f" text-anchor="middle">(bias estimation established — integration ours)</text>
+    <!-- N8 (mid-right) -->
+    <rect x="330" y="268" width="184" height="40" rx="2" fill="#fff" stroke="#10151b"/>
+    <text x="422" y="281" font-size="8" font-weight="600" fill="#10151b" text-anchor="middle">Canard force steering</text>
+    <text x="422" y="293" font-size="6" fill="#46525f" text-anchor="middle">force pair aims the force vector;</text>
+    <text x="422" y="301" font-size="6" fill="#46525f" text-anchor="middle">torque pair holds the ring angle</text>
+    <!-- N7 (bottom-right) -->
+    <rect x="330" y="314" width="184" height="36" rx="2" fill="#fff" stroke="#10151b"/>
+    <text x="422" y="327" font-size="8" font-weight="600" fill="#10151b" text-anchor="middle">Command ring angle</text>
+    <text x="422" y="339" font-size="6" fill="#46525f" text-anchor="middle"><tspan font-family="ui-monospace,Menlo,monospace">1 kHz</tspan> cascade P/PI + disturbance observer</text>
+    <!-- N10 -->
+    <rect x="76" y="374" width="190" height="44" rx="2" fill="#fff" stroke="#10151b"/>
+    <text x="171" y="387" font-size="8" font-weight="600" fill="#10151b" text-anchor="middle">Arming</text>
+    <text x="171" y="399" font-size="6" fill="#46525f" text-anchor="middle">out-of-line S&amp;A; setback + spin interlocks;</text>
+    <text x="171" y="408" font-size="6" fill="#46525f" text-anchor="middle">armed after muzzle exit</text>
+    <!-- N11 -->
+    <rect x="330" y="374" width="184" height="44" rx="2" fill="#fff" stroke="#10151b"/>
+    <text x="422" y="387" font-size="8" font-weight="600" fill="#10151b" text-anchor="middle">Time correction</text>
+    <text x="422" y="399" font-size="6" fill="#46525f" text-anchor="middle">burst time re-synced from own nav</text>
+    <text x="422" y="408" font-size="6" fill="#46525f" text-anchor="middle">(AOP-22 command-mode basis)</text>
+    <!-- N12 diamond -->
+    <polygon points="310,424 408,448 310,472 212,448" fill="#fff" stroke="#10151b"/>
+    <text x="310" y="445" font-size="7.5" font-weight="600" fill="#10151b" text-anchor="middle">Predicted miss <tspan font-family="ui-monospace,Menlo,monospace">&gt; 150 m</tspan>?</text>
+    <text x="310" y="457" font-size="5" fill="#46525f" text-anchor="middle">the kit's own impact prediction decides</text>
+    <!-- N13 (withhold branch, accent) -->
+    <rect x="20" y="484" width="190" height="30" rx="2" fill="#fff" stroke="#a4551a" stroke-width="1.2"/>
+    <text x="115" y="497" font-size="8" font-weight="600" fill="#a4551a" text-anchor="middle">Function withheld</text>
+    <text x="115" y="508" font-size="5.5" fill="#a4551a" text-anchor="middle">latched, dud-direction — lands, no function</text>
+    <!-- N15 -->
+    <rect x="245" y="484" width="130" height="30" rx="2" fill="#fff" stroke="#10151b"/>
+    <text x="310" y="497" font-size="8" font-weight="600" fill="#10151b" text-anchor="middle">Impact</text>
+    <text x="310" y="508" font-size="5.5" fill="#46525f" text-anchor="middle"><tspan font-family="ui-monospace,Menlo,monospace">≈ 90 s</tspan> flight</text>
+    <!-- N14 -->
+    <rect x="410" y="484" width="190" height="30" rx="2" fill="#fff" stroke="#10151b"/>
+    <text x="505" y="497" font-size="8" font-weight="600" fill="#10151b" text-anchor="middle">Function enabled</text>
+    <text x="505" y="508" font-size="5.5" fill="#46525f" text-anchor="middle">proximity / time / impact at set mode</text>
+
+    <!-- ===== edges ===== -->
+    <g fill="none" stroke="#10151b" stroke-width="1">
+      <path d="M310,48 V54"  marker-end="url(#ah)"/>                                   <!-- E1 -->
+      <path d="M310,104 V110" marker-end="url(#ah)"/>                                  <!-- E2 -->
+      <path d="M310,192 V200" marker-end="url(#ah)"/>                                  <!-- E3 -->
+      <path d="M171,252 V260" marker-end="url(#ah)"/>                                  <!-- E4 -->
+      <path d="M171,292 V300" marker-end="url(#ah)"/>                                  <!-- E5 -->
+      <path d="M266,332 H328" marker-end="url(#ah)"/>                                  <!-- E6 -->
+      <path d="M422,314 V310" marker-end="url(#ah)"/>                                  <!-- E7 -->
+      <path d="M514,288 H560 V150 H532" stroke-dasharray="3 2" marker-end="url(#ah)"/> <!-- E8 -->
+      <path d="M422,268 V264" marker-end="url(#ah)"/>                                  <!-- E9 -->
+      <path d="M422,222 V214 H171 V220" marker-end="url(#ah)"/>                        <!-- E10 -->
+      <path d="M60,170 H52 V323 H74" marker-end="url(#ah)"/>                           <!-- E11 -->
+      <path d="M530,180 H575 V390 H516" marker-end="url(#ah)"/>                        <!-- E12 -->
+      <path d="M170,28 H66 V396 H74" marker-end="url(#ah)"/>                           <!-- E13 -->
+      <path d="M171,418 V430 H235 L256,437" stroke-dasharray="3 2" marker-end="url(#ah)"/> <!-- E14 -->
+      <path d="M470,418 V434 H555 V482" marker-end="url(#ah)"/>                        <!-- E15 -->
+      <path d="M76,237 H58 V448 H210" marker-end="url(#ah)"/>                          <!-- E16 -->
+      <path d="M358,468 L502,482" marker-end="url(#ah)"/>                              <!-- E18 -->
+      <path d="M410,500 H377" marker-end="url(#ah)"/>                                  <!-- E19 -->
+      <path d="M210,500 H243" stroke-dasharray="3 2" marker-end="url(#ah)"/>            <!-- E20 -->
+    </g>
+    <path d="M262,466 L122,482" fill="none" stroke="#a4551a" stroke-width="1.2" marker-end="url(#ahf)"/> <!-- E17 -->
+
+    <g font-size="5.5" fill="#46525f">
+      <text x="316" y="55">muzzle exit</text>
+      <text x="316" y="111">spin removed</text>
+      <text x="316" y="200">state · wind · air data</text>
+      <text x="178" y="259">predicted impact point</text>
+      <text x="178" y="299">miss vector</text>
+      <text transform="rotate(-90 305 315)" x="305" y="315" text-anchor="middle">command within available authority</text>
+      <text transform="rotate(-90 522 340)" x="522" y="340" text-anchor="middle">ring torque ← alternator current</text>
+      <text x="512" y="263">observed response</text>
+      <text x="240" y="211">bias corrections: MV error · drag bias · wind</text>
+      <text transform="rotate(-90 46 250)" x="46" y="250" text-anchor="middle">state-dependent limits — high early &amp; late, collapse at apogee</text>
+      <text x="578" y="352">nav fix</text>
+      <text transform="rotate(-90 72 52)" x="72" y="52" text-anchor="middle">setback + spin interlocks satisfied</text>
+      <text x="92" y="436">arming path — one-way, gated</text>
+      <text x="478" y="430">burst-time correction</text>
+      <text transform="rotate(-90 52 400)" x="52" y="400" text-anchor="middle">latest impact prediction</text>
+      <text x="392" y="510" text-anchor="middle">functions at set mode</text>
+      <text x="226" y="510" text-anchor="middle">lands — no function</text>
+    </g>
+    <g font-size="6">
+      <text x="150" y="478" fill="#a4551a"><tspan font-family="ui-monospace,Menlo,monospace">&gt; 150 m</tspan></text>
+      <text x="452" y="478" fill="#46525f"><tspan font-family="ui-monospace,Menlo,monospace">≤ 150 m</tspan></text>
+    </g>
+    <!-- footer credit line (mandatory) -->
+    <text x="300" y="526" font-size="6" fill="#7b8794" text-anchor="middle">Lineage: two-pair canards + alternator as de-spin actuator — fielded M1156 specification / US 6,981,672 (2006, expired).</text>
+  </svg>
+
+  <!-- F3-1: fig4-system-flowchart (REQUIRED), 0.85x -->
+  <img id="fig4" alt="fig4-system-flowchart" src="data:image/svg+xml;base64,__FIG4__">
+
+  <!-- F3-2/3/4: labelled CAD thumbs -->
+  <div class="thumb" style="left:16px">
+    <img alt="05-shell-kit-section" src="data:image/png;base64,__CAD05__">
+    <div class="lead" style="left:8px;top:14px;width:14px"></div>
+    <div class="callout" style="left:22px;top:8px">heat path: fuze-well threads → shell</div>
+    <div class="callout" style="left:8px;bottom:6px">≥58 W/K vs 3–16 W/K bare thread — designed interface, rig closes it</div>
+  </div>
+  <div class="thumb" style="left:232px">
+    <img alt="21-part-fuze-train" src="data:image/png;base64,__CAD21__">
+    <div class="lead" style="left:8px;top:14px;width:14px"></div>
+    <div class="callout" style="left:22px;top:8px">out-of-line S&amp;A: rotor in line only when armed</div>
+    <div class="callout" style="left:8px;bottom:6px">dual interlocks: setback + spin</div>
+  </div>
+  <div class="thumb" style="left:448px">
+    <img alt="19-part-electronics-stack" src="data:image/png;base64,__CAD19__">
+    <div class="lead" style="left:8px;top:14px;width:14px"></div>
+    <div class="callout" style="left:22px;top:8px">avionics · dump resistor · buffer · setter coil</div>
+    <div class="callout" style="left:8px;bottom:6px">one-way arming-gated link to the fuze</div>
+  </div>
+
+  <!-- bullets: S1–S5 technologies · S6–S11 methodology -->
+  <div id="bullets">
+    <div class="grouplabel">technologies used</div>
+    <ul>
+      <li>Flight computer: STM32-class dual MCU — one core bare-metal at <span class="num">1 kHz</span> control; second core nav + GNSS</li>
+      <li>Sensing: GNSS + IMU + baro + ring angle (pickoff + magnetometer)</li>
+      <li>Power: three-phase rectification + four-quadrant stage · supercapacitor buffer · <span class="num">180 V</span> bus</li>
+      <li>Setting: the existing <span class="num">AOP-22</span> inductive chain — mode, ToF, target, MV, met</li>
+      <li>Build tools: FreeCAD CAD (gate-checked) · embedded C · <span class="num">7-DOF</span> simulation · HIL · dynamometer rig</li>
+    </ul>
+    <div class="grouplabel">methodology and process of implementation</div>
+    <ul>
+      <li>IPP guidance — propagate → compare → command ring angle — credited to published work</li>
+      <li>Ours in the loop: the state-dependent authority gate + error-estimator integration</li>
+      <li>The ring is the inertial platform — ours to prove; the bench programme is tasked with proving it</li>
+      <li>Span-capped canard ring: resonance is an open item — evidence closes in the <span class="num">7-DOF</span> campaign</li>
+      <li>Process: <span class="num">7-DOF</span> Monte Carlo with guidance in the loop → HIL → rotating dynamometer rig (plan, not an asset) → integration demonstrator</li>
+      <li>GNSS-denied: coast on inertial to the drift limit (outage tolerance set in the campaign); anti-jam GNSS is a module-level substitution</li>
+    </ul>
+  </div>
+
+</div>
+</body>
+</html>

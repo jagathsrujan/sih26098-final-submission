@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 518" width="660" height="518" role="img" aria-label="STHIRA-PGK system flowchart: flight chain, power supply system, fuze and safety system" style="font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;display:block">
+<title>STHIRA-PGK system flowchart: flight chain, power supply system, fuze and safety system</title>
+<desc>Three chains, four blocks each: the flight chain, the power supply system and the fuze and safety system, with the cross-lane interfaces and the flight computer and shell below.</desc>
+<defs><marker id="ar4" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,1 L7,4 L0,7 z" style="fill:var(--f-ink, #10151b)"/></marker></defs>
+<defs><marker id="ar4f" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,1 L7,4 L0,7 z" style="fill:var(--f-flag, #a4551a)"/></marker></defs>
+<rect x="8" y="8" width="644" height="130" rx="3" style="fill:none;stroke:var(--f-ink, #10151b);stroke-width:1"/>
+<text x="20" y="27" text-anchor="start" style="font-size:9.5px;fill:var(--f-ink, #10151b);font-weight:400">Flight chain</text>
+<rect x="20" y="34" width="146" height="100" rx="3" style="fill:none;stroke:var(--f-ink, #10151b);stroke-width:1"/>
+<text x="93" y="54" text-anchor="middle" style="font-size:10px;fill:var(--f-ink, #10151b);font-weight:400">Pre-launch set-up</text>
+<line x1="20" y1="60" x2="166" y2="60" style="stroke:var(--f-ink3, #7b8794);stroke-width:0.8"/>
+<text x="29" y="80" text-anchor="start" style="font-size:8px;fill:var(--f-ink2, #46525f);font-weight:400">- fuze setting on the gun line</text>
+<text x="29" y="95" text-anchor="start" style="font-size:8px;fill:var(--f-ink2, #46525f);font-weight:400">- AOP-22 inductive set</text>
+<text x="29" y="110" text-anchor="start" style="font-size:8px;fill:var(--f-ink2, #46525f);font-weight:400">- target + met in the package</text>
+<text x="29" y="125" text-anchor="start" style="font-size:8px;fill:var(--f-ink2, #46525f);font-weight:400">- read back before loading</text>
+<line x1="167" y1="84" x2="174" y2="84" marker-end="url(#ar4)" style="stroke:var(--f-ink, #10151b);stroke-width:1"/>
+<rect x="175" y="34" width="146" height="100" rx="3" style="fill:none;stroke:var(--f-ink, #10151b);stroke-width:1"/>
+<text x="248" y="54" text-anchor="middle" style="font-size:10px;fill:var(--f-ink, #10151b);font-weight:400">Navigation &amp; sensing</text>
+<line x1="175" y1="60" x2="321" y2="60" style="stroke:var(--f-ink3, #7b8794);stroke-width:0.8"/>
+<text x="184" y="80" text-anchor="start" style="font-size:8px;fill:var(--f-ink2, #46525f);font-weight:400">- GNSS on the spin axis</text>
+<text x="184" y="95" text-anchor="start" style="font-size:8px;fill:var(--f-ink2, #46525f);font-weight:400">- IMU on the de-spun ring</text>
+<text x="184" y="110" text-anchor="start" style="font-size:8px;fill:var(--f-ink2, #46525f);font-weight:400">- RF Doppler + ring pickoff</text>
+<text x="184" y="125" text-anchor="start" style="font-size:8px;fill:var(--f-ink2, #46525f);font-weight:400">- nav 3.7 m derived against 5 m</text>
+<line x1="322" y1="84" x2="329" y2="84" marker-end="url(#ar4)" style="stroke:var(--f-ink, #10151b);stroke-width:1"/>
+<rect x="330" y="34" width="146" height="100" rx="3" style="fill:none;stroke:var(--f-ink, #10151b);stroke-width:1"/>
+<text x="403" y="54" text-anchor="middle" style="font-size:10px;fill:var(--f-ink, #10151b);font-weight:400">Guidance &amp; control</text>
+<line x1="330" y1="60" x2="476" y2="60" style="stroke:var(--f-ink3, #7b8794);stroke-width:0.8"/>
+<text x="339" y="80" text-anchor="start" style="font-size:8px;fill:var(--f-ink2, #46525f);font-weight:400">- propagate to impact (IPP)</text>
+<text x="339" y="95" text-anchor="start" style="font-size:8px;fill:var(--f-ink2, #46525f);font-weight:400">- bias estimator from t = 0</text>
+<text x="339" y="110" text-anchor="start" style="font-size:8px;fill:var(--f-ink2, #46525f);font-weight:400">- gate is computed, not timed</text>
+<text x="339" y="125" text-anchor="start" style="font-size:8px;fill:var(--f-ink2, #46525f);font-weight:400">- 1 kHz cascade, control core</text>
+<line x1="477" y1="84" x2="484" y2="84" marker-end="url(#ar4)" style="stroke:var(--f-ink, #10151b);stroke-width:1"/>
+<rect x="485" y="34" width="146" height="100" rx="3" style="fill:none;stroke:var(--f-ink, #10151b);stroke-width:1"/>
+<text x="558" y="54" text-anchor="middle" style="font-size:10px;fill:var(--f-ink, #10151b);font-weight:400">Canard ring · actuation</text>
+<line x1="485" y1="60" x2="631" y2="60" style="stroke:var(--f-ink3, #7b8794);stroke-width:0.8"/>
+<text x="494" y="80" text-anchor="start" style="font-size:8px;fill:var(--f-ink2, #46525f);font-weight:400">- four fixed canards on the ring</text>
+<text x="494" y="95" text-anchor="start" style="font-size:8px;fill:var(--f-ink2, #46525f);font-weight:400">- steering pair: net force</text>
+<text x="494" y="110" text-anchor="start" style="font-size:8px;fill:var(--f-ink2, #46525f);font-weight:400">- control pair: roll torque</text>
+<text x="494" y="125" text-anchor="start" style="font-size:8px;fill:var(--f-ink2, #46525f);font-weight:400">- F_steer ≥ 18.1 N (derived)</text>
+<rect x="8" y="154" width="644" height="130" rx="3" style="fill:none;stroke:var(--f-ink, #10151b);stroke-width:1"/>
+<text x="20" y="173" text-anchor="start" style="font-size:9.5px;fill:var(--f-ink, #10151b);font-weight:400">Power supply system</text>
+<rect x="20" y="180" width="146" height="100" rx="3" style="fill:none;stroke:var(--f-ink, #10151b);stroke-width:1"/>
+<text x="93" y="200" text-anchor="middle" style="font-size:10px;fill:var(--f-ink, #10151b);font-weight:400">Alternator — machine</text>
+<line x1="20" y1="206" x2="166" y2="206" style="stroke:var(--f-ink3, #7b8794);stroke-width:0.8"/>
+<text x="29" y="226" text-anchor="start" style="font-size:8px;fill:var(--f-ink2, #46525f);font-weight:400">- magnets on ring, coils body</text>
+<text x="29" y="241" text-anchor="start" style="font-size:8px;fill:var(--f-ink2, #46525f);font-weight:400">- the actuator is the generator</text>
+<text x="29" y="256" text-anchor="start" style="font-size:8px;fill:var(--f-ink2, #46525f);font-weight:400">- 2.92 kW / 121 kJ sizing figures</text>
+<text x="29" y="271" text-anchor="start" style="font-size:8px;fill:var(--f-ink2, #46525f);font-weight:400">- no flight battery</text>
+<line x1="167" y1="230" x2="174" y2="230" marker-end="url(#ar4)" style="stroke:var(--f-ink, #10151b);stroke-width:1"/>
+<rect x="175" y="180" width="146" height="100" rx="3" style="fill:none;stroke:var(--f-ink, #10151b);stroke-width:1"/>
+<text x="248" y="200" text-anchor="middle" style="font-size:10px;fill:var(--f-ink, #10151b);font-weight:400">Power conditioning</text>
+<line x1="175" y1="206" x2="321" y2="206" style="stroke:var(--f-ink3, #7b8794);stroke-width:0.8"/>
+<text x="184" y="226" text-anchor="start" style="font-size:8px;fill:var(--f-ink2, #46525f);font-weight:400">- four-quadrant stage</text>
+<text x="184" y="241" text-anchor="start" style="font-size:8px;fill:var(--f-ink2, #46525f);font-weight:400">- buck generating, boost motor</text>
+<text x="184" y="256" text-anchor="start" style="font-size:8px;fill:var(--f-ink2, #46525f);font-weight:400">- 180 V bus, regulated rail</text>
+<text x="184" y="271" text-anchor="start" style="font-size:8px;fill:var(--f-ink2, #46525f);font-weight:400">- high-frequency, controlled edge</text>
+<line x1="322" y1="230" x2="329" y2="230" marker-end="url(#ar4)" style="stroke:var(--f-ink, #10151b);stroke-width:1"/>
+<rect x="330" y="180" width="146" height="100" rx="3" style="fill:none;stroke:var(--f-ink, #10151b);stroke-width:1"/>
+<text x="403" y="200" text-anchor="middle" style="font-size:10px;fill:var(--f-ink, #10151b);font-weight:400">Supercapacitor buffer</text>
+<line x1="330" y1="206" x2="476" y2="206" style="stroke:var(--f-ink3, #7b8794);stroke-width:0.8"/>
+<text x="339" y="226" text-anchor="start" style="font-size:8px;fill:var(--f-ink2, #46525f);font-weight:400">- chopper dump: 121 kJ → shell</text>
+<text x="339" y="241" text-anchor="start" style="font-size:8px;fill:var(--f-ink2, #46525f);font-weight:400">- supercapacitor buffer</text>
+<text x="339" y="256" text-anchor="start" style="font-size:8px;fill:var(--f-ink2, #46525f);font-weight:400">- fireset, hold-up, bursts</text>
+<text x="339" y="271" text-anchor="start" style="font-size:8px;fill:var(--f-ink2, #46525f);font-weight:400">- surplus capacity at apogee</text>
+<line x1="477" y1="230" x2="484" y2="230" marker-end="url(#ar4)" style="stroke:var(--f-ink, #10151b);stroke-width:1"/>
+<rect x="485" y="180" width="146" height="100" rx="3" style="fill:none;stroke:var(--f-ink, #10151b);stroke-width:1"/>
+<text x="558" y="200" text-anchor="middle" style="font-size:10px;fill:var(--f-ink, #10151b);font-weight:400">Loads &amp; actuator drive</text>
+<line x1="485" y1="206" x2="631" y2="206" style="stroke:var(--f-ink3, #7b8794);stroke-width:0.8"/>
+<text x="494" y="226" text-anchor="start" style="font-size:8px;fill:var(--f-ink2, #46525f);font-weight:400">- avionics loads</text>
+<text x="494" y="241" text-anchor="start" style="font-size:8px;fill:var(--f-ink2, #46525f);font-weight:400">- drive current → ring torque</text>
+<text x="494" y="256" text-anchor="start" style="font-size:8px;fill:var(--f-ink2, #46525f);font-weight:400">- ring-side electronics</text>
+<text x="494" y="271" text-anchor="start" style="font-size:8px;fill:var(--f-ink2, #46525f);font-weight:400">- the design question: routing</text>
+<rect x="8" y="300" width="644" height="130" rx="3" style="fill:none;stroke:var(--f-ink, #10151b);stroke-width:1"/>
+<text x="20" y="319" text-anchor="start" style="font-size:9.5px;fill:var(--f-ink, #10151b);font-weight:400">Multi-mode fuze and safety system</text>
+<rect x="20" y="326" width="146" height="100" rx="3" style="fill:none;stroke:var(--f-ink, #10151b);stroke-width:1"/>
+<text x="93" y="346" text-anchor="middle" style="font-size:10px;fill:var(--f-ink, #10151b);font-weight:400">Sensor suite</text>
+<line x1="20" y1="352" x2="166" y2="352" style="stroke:var(--f-ink3, #7b8794);stroke-width:0.8"/>
+<text x="29" y="372" text-anchor="start" style="font-size:8px;fill:var(--f-ink2, #46525f);font-weight:400">- crystal timer</text>
+<text x="29" y="387" text-anchor="start" style="font-size:8px;fill:var(--f-ink2, #46525f);font-weight:400">- impact, short delay, graze</text>
+<text x="29" y="402" text-anchor="start" style="font-size:8px;fill:var(--f-ink2, #46525f);font-weight:400">- proximity RF, 2–15 m burst</text>
+<text x="29" y="417" text-anchor="start" style="font-size:8px;fill:var(--f-ink2, #46525f);font-weight:400">- burst time re-syncs from nav</text>
+<line x1="167" y1="376" x2="174" y2="376" marker-end="url(#ar4)" style="stroke:var(--f-ink, #10151b);stroke-width:1"/>
+<rect x="175" y="326" width="146" height="100" rx="3" style="fill:none;stroke:var(--f-ink, #10151b);stroke-width:1"/>
+<text x="248" y="346" text-anchor="middle" style="font-size:10px;fill:var(--f-ink, #10151b);font-weight:400">Central controller</text>
+<line x1="175" y1="352" x2="321" y2="352" style="stroke:var(--f-ink3, #7b8794);stroke-width:0.8"/>
+<text x="184" y="372" text-anchor="start" style="font-size:8px;fill:var(--f-ink2, #46525f);font-weight:400">- own MCU and reserve rail</text>
+<text x="184" y="387" text-anchor="start" style="font-size:8px;fill:var(--f-ink2, #46525f);font-weight:400">- mode and arming logic</text>
+<text x="184" y="402" text-anchor="start" style="font-size:8px;fill:var(--f-ink2, #46525f);font-weight:400">- two-tier BIT</text>
+<text x="184" y="417" text-anchor="start" style="font-size:8px;fill:var(--f-ink2, #46525f);font-weight:400">- one-way optical link from kit</text>
+<line x1="322" y1="376" x2="329" y2="376" marker-end="url(#ar4)" style="stroke:var(--f-ink, #10151b);stroke-width:1"/>
+<rect x="330" y="326" width="146" height="100" rx="3" style="fill:none;stroke:var(--f-ink, #10151b);stroke-width:1"/>
+<text x="403" y="346" text-anchor="middle" style="font-size:10px;fill:var(--f-ink, #10151b);font-weight:400">Safe &amp; arm · output</text>
+<line x1="330" y1="352" x2="476" y2="352" style="stroke:var(--f-ink3, #7b8794);stroke-width:0.8"/>
+<text x="339" y="372" text-anchor="start" style="font-size:8px;fill:var(--f-ink2, #46525f);font-weight:400">- out-of-line rotor</text>
+<text x="339" y="387" text-anchor="start" style="font-size:8px;fill:var(--f-ink2, #46525f);font-weight:400">- setback + spin + command</text>
+<text x="339" y="402" text-anchor="start" style="font-size:8px;fill:var(--f-ink2, #46525f);font-weight:400">- fireset, interlocked</text>
+<text x="339" y="417" text-anchor="start" style="font-size:8px;fill:var(--f-flag, #a4551a);font-weight:400">- thresholds at hardware definition</text>
+<line x1="477" y1="376" x2="484" y2="376" marker-end="url(#ar4)" style="stroke:var(--f-ink, #10151b);stroke-width:1"/>
+<rect x="485" y="326" width="146" height="100" rx="3" style="fill:none;stroke:var(--f-ink, #10151b);stroke-width:1"/>
+<text x="558" y="346" text-anchor="middle" style="font-size:10px;fill:var(--f-ink, #10151b);font-weight:400">Detonator → booster</text>
+<line x1="485" y1="352" x2="631" y2="352" style="stroke:var(--f-ink3, #7b8794);stroke-width:0.8"/>
+<text x="494" y="372" text-anchor="start" style="font-size:8px;fill:var(--f-ink2, #46525f);font-weight:400">- centreline initiation</text>
+<text x="494" y="387" text-anchor="start" style="font-size:8px;fill:var(--f-ink2, #46525f);font-weight:400">- annular about the train bore</text>
+<text x="494" y="402" text-anchor="start" style="font-size:8px;fill:var(--f-ink2, #46525f);font-weight:400">- MIL-STD-1316 · AOP-39</text>
+<text x="494" y="417" text-anchor="start" style="font-size:8px;fill:var(--f-ink2, #46525f);font-weight:400">- the veto withholds it: a dud</text>
+<path d="M 600 180 L 600 134" marker-end="url(#ar4)" style="fill:none;stroke:var(--f-ink, #10151b);stroke-width:1;"/>
+<text x="590" y="168" text-anchor="end" style="font-size:7.5px;fill:var(--f-ink2, #46525f);font-weight:400">current → ring torque</text>
+<path d="M 336 134 L 336 148 L 170 148 L 170 297 L 250 297 L 250 326" marker-end="url(#ar4)" style="fill:none;stroke:var(--f-ink, #10151b);stroke-width:1;stroke-dasharray:6 4;"/>
+<text x="24" y="291" text-anchor="start" style="font-size:7.5px;fill:var(--f-ink2, #46525f);font-weight:400">one-way · arming-gated · optical</text>
+<path d="M 345 280 L 345 297 L 300 297 L 300 326" marker-end="url(#ar4)" style="fill:none;stroke:var(--f-ink, #10151b);stroke-width:1;"/>
+<text x="220" y="291" text-anchor="start" style="font-size:7.5px;fill:var(--f-ink2, #46525f);font-weight:400">diode-OR at muzzle exit</text>
+<path d="M 400 280 L 400 326" marker-end="url(#ar4)" style="fill:none;stroke:var(--f-ink, #10151b);stroke-width:1;"/>
+<text x="408" y="291" text-anchor="start" style="font-size:7.5px;fill:var(--f-ink2, #46525f);font-weight:400">charges the fireset</text>
+<path d="M 460 134 L 460 142 L 480 142 L 480 297 L 440 297 L 440 326" marker-end="url(#ar4)" style="fill:none;stroke:var(--f-ink, #10151b);stroke-width:1;stroke-dasharray:6 4;"/>
+<text x="492" y="291" text-anchor="start" style="font-size:7.5px;fill:var(--f-ink2, #46525f);font-weight:400">veto: predicted miss</text>
+<rect x="8" y="446" width="644" height="54" rx="3" style="fill:none;stroke:var(--f-ink, #10151b);stroke-width:1"/>
+<text x="20" y="460" text-anchor="start" style="font-size:9.5px;fill:var(--f-ink, #10151b);font-weight:400">Flight computer — one dual-core part</text>
+<text x="20" y="474" text-anchor="start" style="font-size:8px;fill:var(--f-ink2, #46525f);font-weight:400">Nav core — filter, bias estimator, the IPP law</text>
+<text x="20" y="487" text-anchor="start" style="font-size:8px;fill:var(--f-ink2, #46525f);font-weight:400">Control core — the 1 kHz cascade, hardware-timed sampling</text>
+<text x="340" y="460" text-anchor="start" style="font-size:9.5px;fill:var(--f-ink, #10151b);font-weight:400">The shell — where the 121 kJ ends</text>
+<text x="340" y="474" text-anchor="start" style="font-size:8px;fill:var(--f-ink2, #46525f);font-weight:400">121 kJ in ≤ 90 s → heat into the shell body</text>
+<text x="340" y="487" text-anchor="start" style="font-size:8px;fill:var(--f-flag, #a4551a);font-weight:400">≥58 W/K at the well — rig closes it</text>
+<text x="330" y="512" text-anchor="middle" style="font-size:6.5px;fill:var(--f-ink3, #7b8794);font-weight:400">Lineage: two-pair canards + alternator as de-spin actuator — fielded M1156 specification / US 6,981,672 (2006, expired).</text>
+</svg>
