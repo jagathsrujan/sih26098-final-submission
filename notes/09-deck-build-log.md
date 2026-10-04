@@ -39,3 +39,26 @@ Sources read (text only, no images): `notes/00-INDEX.md` · `notes/08-freedom-le
 2. `fig4_system_flowchart.py`: apply the scrub list above (IDs, status tags, non-canonical numbers) + the lineage credit line before `close_svg()`. Full replacement map = `deck-assets/fig4_system_flowchart.py` (the modified copy).
 
 **Next:** Round 4 — slide 5 (impact and benefits): cost honesty block, rounds/charges, growth wording.
+
+## Round 4 — figure-direction revision: slide 4 re-cut (2026-10-04)
+
+Trigger: user marked up the mockups — figure zones read **cluttered**, the charts **"feel AI generated"**. Direction: fewer graphs, tables / other data representation, **more CAD + research-paper tables & figures with references**.
+
+**User decisions (question round):**
+1. Slide 4 visuals = **tables + CAD, zero synthetic graphs** — fig2 + fig3 retired from the deck.
+2. Research-paper figures, when used, = **redrawn clean `after Author year`** with credit captions — never scanned crops (foreign numbers cannot be scrubbed).
+3. **The table owns the numbers** — bullets trim to honesty framing; every number prints once.
+
+**Rulings this round:** third-party published figures print with "published" status + author-year credit (table 3: `206 → 24.73 m` Zhang/Yao/Zheng CJA 2019 · `CEP ≤ 30 m at ≈ 27 km` Yi Wang IJAE 2015) · old F1/F2/F3/F5 numbers → tables 1–2 · old F4 → table 2 "Correction" row (`a margin, not comfort` stays attached to 1.11:1) · old F6 levers → table 2 "Target class" row · sub-allocation (3.7/3.0/2.0/1.0) = table 1 footnote (old F2 cut) · gate (90 %) stays in F4 bullet only (R2 echo, approved round 3) · `cad/10-section-through-axis.png` promoted from trim bank to **permanent** (more CAD per direction) · **fig2/fig3 retired** (repo2 untouched; `deck-assets/fig3-canard-authority-clean.svg` kept as a spare).
+
+Deliverables: `07` slide 4 re-cut — python-verified: bullets 1,352 (12) · table rows 753 (14) · titles + captions + footnote + callouts 517 · **total 2,622** (round 3: 1,937; prose fell 1,708 → 1,352, numbers live in typeset rows) · wireframe + specs F4-1…F4-4 (tables = typeset text, redraw policy recorded) · `mockups/slide4-mockup.src.html` rebuilt (tables as live HTML text) → `slide4-mockup.html` + `slide4-mockup.png` 2560×1440.
+
+Render note: Chrome headless hung twice (fresh + named profile) — the mockup was rendered with agent-browser instead. Reusable line: `agent-browser set viewport 1280 720 2` → `open file://…/slideX-mockup.html` → `screenshot …png` → `close`.
+
+Forbidden-value + ID scan: slide-4 generator + print strings clean (residual `07` hits are rule/history lines only: ground rules, slide-1 `⟨from portal⟩`, slide-2 honesty map).
+
+**Slide-6 patch proposal (propose-only):** add *Yi Wang et al., Int. J. Aerospace Eng., 2015* to the curated 12 — it now carries table 3; funded by `04`'s trim order (3) drop entry 10 (PS implicit).
+
+**Round-4 hotfix (2026-10-04, user review: "fix the spacing of the table and the image cut off"):** table rhythm evened to 50 px (DOM eval measured: blocks 56–262 / 312–487 / 537–652, slack 52) · CAD figure moved to the bottom-left band (620×284, x20 y420) with `object-fit:contain` — full 2334×1313 canvas, machine never cropped (the 566×88 `cover` letterbox sliced it; canvas is 16:9 with the machine drawn tall in the centre) · first hotfix attempt put the figure at y352 and hid R3/R4 behind it — bullets measured to y404, figure now starts y420 · **print-integrity bug found by reading the render:** CSS `text-transform:uppercase` turned the `1σ (m)` header into `1Σ (M)` — headers now print exactly as listed (rule recorded in `07`). `07` wireframe + F4-4 spec updated to the measured layout.
+
+**Next:** Round 5 — slide 5 (impact and benefits) under the same direction: rounds/charges + unit economics as tables, CAD hero (`04`/`01`), published figures credited per ruling 2.
